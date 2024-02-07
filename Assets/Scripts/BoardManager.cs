@@ -13,7 +13,10 @@ public class BoardManager : MonoBehaviour
 
     public GameObject[,] tiles; //tiles in board as an 2D array
 
-    private float border = 0.1f;
+    public bool IsShifting { get; set; } //checks if it is swapping
+
+    private float border = 0.1f; //border between sprites
+
     void Start()
     {
         instance = GetComponent<BoardManager>();     
@@ -43,21 +46,25 @@ public class BoardManager : MonoBehaviour
         {      
             for (int y = 0; y < ySize; y++)
             {
-                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation);
-                tiles[x, y] = newTile;
+                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //sets newTile to make Tile prefabs
+                
+                tiles[x, y] = newTile; //sets Tile to it's x and y location
 
                 newTile.transform.parent = transform; //parents new tile to board manager
 
-                List<Sprite> possibleResources = new List<Sprite>(); 
-                possibleResources.AddRange(resources); 
+                List<Sprite> possibleResources = new List<Sprite>();  
+                possibleResources.AddRange(resources); //adds all resources to list
 
-                possibleResources.Remove(previousLeft[y]); 
-                possibleResources.Remove(previousBelow);
+                possibleResources.Remove(previousLeft[y]); //removes any resource to the left
+                possibleResources.Remove(previousBelow); //removes resource right below
 
-                Sprite newSprite = possibleResources[Random.Range(0, possibleResources.Count)];
+                Sprite newSprite = possibleResources[Random.Range(0, possibleResources.Count)]; //creates a new sprite from possible resources
 
+                newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
 
-                newTile.GetComponent<SpriteRenderer>().sprite = newSprite;
+                previousLeft[y] = newSprite; //sets current sprite as left
+                previousBelow = newSprite; //sets current sprite as bottom
+
             }
         }
     }
