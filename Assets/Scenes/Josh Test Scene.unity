@@ -224,6 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1816308003}
+  - component: {fileID: 1816308004}
   m_Layer: 0
   m_Name: BoardManager
   m_TagString: Untagged
@@ -240,12 +241,33 @@ Transform:
   m_GameObject: {fileID: 1816308002}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816308004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816308002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecd215e869df6848ab70c34592b16c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resources:
+  - {fileID: -5177388603050735206, guid: 76d552cb0e7ad7d4fae32c1bf4f066b1, type: 3}
+  - {fileID: -2413806693520163455, guid: 6359af2b7f3865d4896b6ababbdbce05, type: 3}
+  - {fileID: 2747690628134850419, guid: c55490e4efbbc5c4d979b515c3843ffe, type: 3}
+  - {fileID: -2135585597343286014, guid: e9c1437e22fa0e143a157a51a57c17a3, type: 3}
+  - {fileID: 7482667652216324306, guid: 2c675337c34988b47898b550635d7f5e, type: 3}
+  tile: {fileID: 3536064604043993604, guid: 5576b51a79e557b4cbb8bd8741935513, type: 3}
+  xSize: 7
+  ySize: 7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
