@@ -7,6 +7,7 @@ using UnityEngine.TextCore.Text;
 public class BoardManagerTest : MonoBehaviour
 {
     public static BoardManagerTest instance;
+    private Transform BoardTransform;
     public List<Sprite> resources = new List<Sprite>(); //sprites of resources
     public GameObject tile;  //prefab of tile 
     public int xSize, ySize; //size of board (set in Unity)
@@ -20,8 +21,10 @@ public class BoardManagerTest : MonoBehaviour
     void Start()
     {
         instance = GetComponent<BoardManagerTest>();
+        BoardTransform = GetComponent<Transform>();
 
-        Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.size;
+        Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.extents; //could be bounds.size
+        BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f);
         CreateBoard(offset.x + border, offset.y + border);
     }
 
@@ -114,7 +117,7 @@ public class BoardManagerTest : MonoBehaviour
             for (int k = 0; k < renders.Count - 1; k++)
             {
                 renders[k].sprite = renders[k + 1].sprite; //replaces current tile with one above
-                renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //cerates new tile at the very top
+                renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //creates new tile at the very top
             }
         }
         IsShifting = false;
@@ -123,19 +126,19 @@ public class BoardManagerTest : MonoBehaviour
     private Sprite GetNewSprite(int x, int y)
     {
         List<Sprite> possibleCharacters = new List<Sprite>();
-        possibleCharacters.AddRange(resources);
+        possibleCharacters.AddRange(resources); //add in all resources
 
         if (x > 0)
         {
-            possibleCharacters.Remove(tiles[x - 1, y].GetComponent<SpriteRenderer>().sprite);//remove tile to left
+            possibleCharacters.Remove(tiles[x - 1, y].GetComponent<SpriteRenderer>().sprite);//remove tilePossibility to left
         }
         if (x < xSize - 1)
         {
-            possibleCharacters.Remove(tiles[x + 1, y].GetComponent<SpriteRenderer>().sprite);//remove tile to right
+            possibleCharacters.Remove(tiles[x + 1, y].GetComponent<SpriteRenderer>().sprite);//remove tilePossibility to right
         }
         if (y > 0)
         {
-            possibleCharacters.Remove(tiles[x, y - 1].GetComponent<SpriteRenderer>().sprite);//remove tile under
+            possibleCharacters.Remove(tiles[x, y - 1].GetComponent<SpriteRenderer>().sprite);//remove tilePossibility under
         }
 
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)];

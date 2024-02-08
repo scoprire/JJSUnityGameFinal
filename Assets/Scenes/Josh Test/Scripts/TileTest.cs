@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 public class TileTest : MonoBehaviour
 {
     private new SpriteRenderer renderer;
+    private new Transform transform;
 
     private static Color startColor; //color when starting
     private static Color selectedColor = new Color(.5f, .5f, .5f, 1.0f); //color when selected
@@ -17,11 +18,13 @@ public class TileTest : MonoBehaviour
 
     private bool matchFound = false;
 
-
+    public float tileScale = 1f;
     void Start()
     {
         renderer = GetComponent<SpriteRenderer>(); //set renderer 
+        transform = GetComponent<Transform>(); //set transform
         startColor = renderer.color; //sets startColor to starting color
+        transform.localScale = new Vector3(tileScale, tileScale, tileScale);
     }
 
     // Update is called once per frame
