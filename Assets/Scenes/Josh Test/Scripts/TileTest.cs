@@ -103,20 +103,20 @@ public class TileTest : MonoBehaviour
 
     private GameObject GetAdjacent(Vector2 castDir)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, castDir);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, castDir); //raycasts in direction
         if (hit.collider != null)
         {
-            return hit.collider.gameObject;
+            return hit.collider.gameObject; //return first hit object
         }
         return null;
     }
 
     private List<GameObject> GetAllAdjacentTiles()
     {
-        List<GameObject> adjacentTiles = new List<GameObject>();
+        List<GameObject> adjacentTiles = new List<GameObject>(); 
         for (int i = 0; i < adjacentDirections.Length; i++)
         {
-            adjacentTiles.Add(GetAdjacent(adjacentDirections[i]));
+            adjacentTiles.Add(GetAdjacent(adjacentDirections[i])); //adds all adjacent (up, down, left, right) tiles to list
         }
         return adjacentTiles;
     }

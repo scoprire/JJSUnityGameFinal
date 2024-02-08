@@ -24,7 +24,9 @@ public class BoardManagerTest : MonoBehaviour
         BoardTransform = GetComponent<Transform>();
 
         Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.extents; //could be bounds.size
-        BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f);
+
+        BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
+
         CreateBoard(offset.x + border, offset.y + border);
     }
 
@@ -41,8 +43,8 @@ public class BoardManagerTest : MonoBehaviour
         float startX = transform.position.x;
         float startY = transform.position.y;
 
-        Sprite[] previousLeft = new Sprite[ySize]; //set previous pieces
-        Sprite previousBelow = null;
+        Sprite[] previousLeft = new Sprite[ySize]; //list of tiles to the left
+        Sprite previousBelow = null; //tile right below
 
 
         for (int x = 0; x < xSize; x++)
@@ -110,7 +112,6 @@ public class BoardManagerTest : MonoBehaviour
             renders.Add(render); //adds tiles above selected tile inclusive into list
         }
 
-        Debug.Log(renders.Count + " " + nullCount);
         for (int i = 0; i < nullCount; i++)
         { 
             yield return new WaitForSeconds(shiftDelay);
@@ -120,7 +121,8 @@ public class BoardManagerTest : MonoBehaviour
                 renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //creates new tile at the very top
             }
         }
-        IsShifting = false;
+
+        IsShifting = false; //allows swawpping
     }
 
     private Sprite GetNewSprite(int x, int y)
@@ -141,7 +143,7 @@ public class BoardManagerTest : MonoBehaviour
             possibleCharacters.Remove(tiles[x, y - 1].GetComponent<SpriteRenderer>().sprite);//remove tilePossibility under
         }
 
-        return possibleCharacters[Random.Range(0, possibleCharacters.Count)];
+        return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
 
 
