@@ -61,14 +61,8 @@ public class TileTest : MonoBehaviour
             }
             else
             {
-                //SwapSprite(previousSelected.renderer);
-                //previousSelected.Deselect();
-
-
-                Debug.Log(previousSelected.ToString());
                 if (GetAllAdjacentTiles().Contains(previousSelected.gameObject))
                 {
-                    Debug.Log("Swapped");
                     SwapSprite(previousSelected.renderer);
                     previousSelected.Deselect();
                 }
@@ -81,7 +75,6 @@ public class TileTest : MonoBehaviour
             }
 
         }
-        Debug.Log(isSelected);
     }
 
     public void SwapSprite(SpriteRenderer render2)
@@ -102,10 +95,6 @@ public class TileTest : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, castDir);
         if (hit.collider != null)
         {
-            Debug.Log("Hit");
-            Debug.Log(hit.collider.gameObject.GetInstanceID());
-            Debug.Log(hit.collider.gameObject.transform.position.x);
-            Debug.Log(hit.collider.gameObject.transform.position.y);
             return hit.collider.gameObject;
         }
         return null;
@@ -114,14 +103,10 @@ public class TileTest : MonoBehaviour
     private List<GameObject> GetAllAdjacentTiles()
     {
         List<GameObject> adjacentTiles = new List<GameObject>();
-        /*for (int i = 0; i < adjacentDirections.Length; i++)
+        for (int i = 0; i < adjacentDirections.Length; i++)
         {
             adjacentTiles.Add(GetAdjacent(adjacentDirections[i]));
-        }*/
-        adjacentTiles.Add(GetAdjacent(Vector2.up));
-        adjacentTiles.Add(GetAdjacent(Vector2.down));
-        adjacentTiles.Add(GetAdjacent(Vector2.left));
-        adjacentTiles.Add(GetAdjacent(Vector2.right));
+        }
         return adjacentTiles;
     }
 
