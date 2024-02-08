@@ -91,7 +91,7 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
-    private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = 2f)
+    private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = 0.2f)
     {
         IsShifting = true; //makes it so you can't swap
         List<SpriteRenderer> renders = new List<SpriteRenderer>();
