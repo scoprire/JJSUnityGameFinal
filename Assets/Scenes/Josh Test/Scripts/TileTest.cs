@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.VFX;
+using static UnityEngine.GraphicsBuffer;
 
 public class TileTest : MonoBehaviour
 {
     private new SpriteRenderer renderer;
     public new Transform transform;
-    private new Rigidbody2D rb;
+    public new Rigidbody2D rb;
 
-    private static Color startColor; //color when starting
+    public Color startColor; //color when starting
     private static Color selectedColor = new Color(.5f, .5f, .5f, 1.0f); //color when selected
     private static TileTest previousSelected = null;
 
@@ -21,10 +23,8 @@ public class TileTest : MonoBehaviour
     private bool matchFound = false;
 
     [SerializeField] private float tileScale = 1f;
-    [SerializeField] private float swapSpeed = 1f;
+    [SerializeField] private float swapTime = 0.25f;
 
-    private float vert, hori;
-    private bool swapping = false;
     void Start()
     {
         renderer = GetComponent<SpriteRenderer>(); //set renderer 
@@ -37,10 +37,7 @@ public class TileTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swapping)
-        {
-            rb.velocity = new Vector2(swapSpeed * hori, swapSpeed * vert);
-        }
+
     }
 
     private void Select()
@@ -59,12 +56,14 @@ public class TileTest : MonoBehaviour
 
     void OnMouseDown()
     {
-
-        if (renderer.sprite == null || BoardManagerTest.instance.IsShifting) //makes sure not currently swapping
+        if (!(renderer.sprite == null || BoardManagerTest.instance.IsShifting || BoardManagerTest.instance.IsSwapping)) //makes sure not currently swapping, shifting or touching a null element
         {
-            return;
+            StartCoroutine(Choose());
         }
+    }
 
+    IEnumerator Choose()
+    {
         if (isSelected) //is sprite selected
         {
             Deselect();
@@ -77,15 +76,24 @@ public class TileTest : MonoBehaviour
             }
             else
             {
-                if (!swapping)//GetAllAdjacentTiles().Contains(previousSelected.gameObject))
+                if (GetAllAdjacentTiles().Contains(previousSelected.gameObject))
                 {
-                    SwapSprite(previousSelected);
+                    BoardManagerTest.instance.IsSwapping = true;
+                    yield return (SwapSprite(previousSelected));
+                    if (previousSelected.CheckMatches() || CheckMatches())
+                    {
+                        previousSelected.ClearAllMatches(); //looks for matches of previousSelected
+                        previousSelected.Deselect();
+                        ClearAllMatches(); //looks for matches of current
+                        BoardManagerTest.instance.IsSwapping = false;
+                    }
+                    else 
+                    {
+                        yield return (SwapSprite(previousSelected));
+                        previousSelected.Deselect();
+                        BoardManagerTest.instance.IsSwapping = false;
+                    }
 
-                    //previousSelected.ClearAllMatches(); //looks for matches of previousSelected
-
-                    previousSelected.Deselect();
-
-                    //ClearAllMatches(); //looks for matches of current
                 }
                 else
                 {
@@ -93,46 +101,39 @@ public class TileTest : MonoBehaviour
                     Select();
                 }
 
+
             }
 
         }
+        yield return null;
     }
 
-    public void SwapSprite(TileTest pTile)
+    IEnumerator SwapSprite(TileTest pTile)
     {
-        Vector2 target = pTile.transform.position;
-        Debug.Log(target);
-        if (transform.position.x < target.x)
+        pTile.renderer.color = pTile.GetComponent<TileTest>().startColor; //clears select() color without clearing select
+        Vector2 start = transform.position; 
+        Vector2 end = pTile.transform.position;
+
+        for (float t = 0; t < 0.5; t += Time.deltaTime / swapTime) //moves sprites to the midpoint of both
         {
-            hori = 1;
-        }
-        if (transform.position.x > target.x)
-        {
-            hori = -1;
-        }
-        if (transform.position.y < target.y)
-        {
-            vert = 1;
-        }
-        if (transform.position.y > target.y)
-        {
-            vert = -1;
+            pTile.transform.position = Vector2.Lerp(end, start, t);
+            transform.position = Vector2.Lerp(start, end, t);
+            yield return null;
         }
 
-        while (transform.position.x != target.x || transform.position.y != target.y)
+        Sprite temp = pTile.renderer.sprite;
+        pTile.renderer.sprite = renderer.sprite; //swaps sprites with each other
+        renderer.sprite = temp;
+
+
+        Vector2 middle = transform.position;
+        for (float t = 0; t < 1; t += Time.deltaTime / (swapTime / 2)) //moves sprites back to their original position with new sprite render
         {
-            Debug.Log(transform.position.x + ", " + target.x);
-            rb.velocity = new Vector2(swapSpeed * hori, swapSpeed * vert);
+            pTile.transform.position = Vector2.Lerp(middle, end, t);
+            transform.position = Vector2.Lerp(middle, start, t);
+            yield return null;
         }
-
-        //swapping = false;
-
-        //Sprite tempSprite = render2.sprite; //sets targetsprite to temp
-        //render2.sprite = renderer.sprite; //changes targetsprite to selected sprite
-        //renderer.sprite = tempSprite; //changes selected sprite to temp
     }
-
-
 
     private GameObject GetAdjacent(Vector2 castDir)
     {
@@ -173,6 +174,7 @@ public class TileTest : MonoBehaviour
         {
             matchingTiles.AddRange(FindMatch(paths[i]));
         }
+
         if (matchingTiles.Count >= 2) //checks how many matching tiles
         {
             for (int i = 0; i < matchingTiles.Count; i++) 
@@ -188,6 +190,7 @@ public class TileTest : MonoBehaviour
         if (renderer.sprite == null)
             return;
 
+
         ClearMatch(new Vector2[2] { Vector2.left, Vector2.right }); //looks for matches horizontally
         ClearMatch(new Vector2[2] { Vector2.up, Vector2.down }); //looks for matches vertically
         if (matchFound)
@@ -198,6 +201,28 @@ public class TileTest : MonoBehaviour
             StopCoroutine(BoardManagerTest.instance.FindNullTiles()); 
             StartCoroutine(BoardManagerTest.instance.FindNullTiles()); //starts shifting tiles down
         }
+    }
+
+    public bool CheckMatches()
+    {
+        Vector2[] hori = new Vector2[2] { Vector2.left, Vector2.right }; //looks for matches horizontally
+        Vector2[] vert = new Vector2[2] { Vector2.up, Vector2.down }; //looks for matches vertically
+        List<GameObject> matchingHori = new List<GameObject>();
+        List<GameObject> matchingVert = new List<GameObject>();
+        for (int i = 0; i < hori.Length; i++)
+        {
+            matchingHori.AddRange(FindMatch(hori[i]));
+        }
+        for (int i = 0; i < vert.Length; i++)
+        {
+            matchingVert.AddRange(FindMatch(vert[i]));
+        }
+
+        if (matchingHori.Count >= 2 || matchingVert.Count >= 2) //checks how many matching tiles
+        {
+            return true;
+        }
+        return false;
     }
 
 

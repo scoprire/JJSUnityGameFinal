@@ -15,6 +15,7 @@ public class BoardManagerTest : MonoBehaviour
     public GameObject[,] tiles; //tiles in board as an 2D array
 
     public bool IsShifting { get; set; } //checks if it is shifting
+    public bool IsSwapping { get; set; } //checks if it is swapping
 
     private float border = 0.1f; //border between sprites
 
@@ -28,6 +29,7 @@ public class BoardManagerTest : MonoBehaviour
         BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
 
         CreateBoard(offset.x + border, offset.y + border);
+        IsSwapping = false;
     }
 
     // Update is called once per frame

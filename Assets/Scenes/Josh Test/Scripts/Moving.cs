@@ -18,6 +18,6 @@ public class Moving : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector2(speed, rb.velocity.y);
+        rb.AddForce(new Vector2(speed, speed));
     }
 }
