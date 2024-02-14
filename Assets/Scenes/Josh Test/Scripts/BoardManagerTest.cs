@@ -22,6 +22,7 @@ public class BoardManagerTest : MonoBehaviour
 
     void Start()
     {
+
         instance = GetComponent<BoardManagerTest>();
         BoardTransform = GetComponent<Transform>();
 

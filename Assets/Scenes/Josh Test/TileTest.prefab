@@ -144,7 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87369cf217758854da9f271fa56d09a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transform: {fileID: 0}
+  rb: {fileID: 0}
+  startColor: {r: 0, g: 0, b: 0, a: 0}
   tileScale: 0.5
+  swapTime: 0.25
 --- !u!50 &-5971702466854764104
 Rigidbody2D:
   serializedVersion: 4
