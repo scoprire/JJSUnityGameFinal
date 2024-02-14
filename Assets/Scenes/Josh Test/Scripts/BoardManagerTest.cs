@@ -118,12 +118,19 @@ public class BoardManagerTest : MonoBehaviour
         }
 
         for (int i = 0; i < nullCount; i++)
-        { 
+        {
             yield return new WaitForSeconds(shiftDelay);
-            for (int k = 0; k < renders.Count - 1; k++)
+            if (renders.Count == 1)
             {
-                renders[k].sprite = renders[k + 1].sprite; //replaces current tile with one above
-                renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //creates new tile at the very top
+                renders[0].sprite = GetNewSprite(x, ySize - 1);
+            }
+            else
+            {
+                for (int k = 0; k < renders.Count - 1; k++)
+                {
+                    renders[k].sprite = renders[k + 1].sprite; //replaces current tile with one above
+                    renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //creates new tile at the very top
+                }
             }
         }
 
