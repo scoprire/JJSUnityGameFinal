@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class TileTest : MonoBehaviour
 {
     private new SpriteRenderer renderer;
-    private new Transform transform;
+    public new Transform transform;
+    private new Rigidbody2D rb;
 
     private static Color startColor; //color when starting
     private static Color selectedColor = new Color(.5f, .5f, .5f, 1.0f); //color when selected
@@ -18,11 +20,16 @@ public class TileTest : MonoBehaviour
 
     private bool matchFound = false;
 
-    public float tileScale = 1f;
+    [SerializeField] private float tileScale = 1f;
+    [SerializeField] private float swapSpeed = 1f;
+
+    private float vert, hori;
+    private bool swapping = false;
     void Start()
     {
         renderer = GetComponent<SpriteRenderer>(); //set renderer 
         transform = GetComponent<Transform>(); //set transform
+        rb = GetComponent<Rigidbody2D>(); //set rigidbody
         startColor = renderer.color; //sets startColor to starting color
         transform.localScale = new Vector3(tileScale, tileScale, tileScale);
     }
@@ -30,7 +37,10 @@ public class TileTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (swapping)
+        {
+            rb.velocity = new Vector2(swapSpeed * hori, swapSpeed * vert);
+        }
     }
 
     private void Select()
@@ -67,15 +77,15 @@ public class TileTest : MonoBehaviour
             }
             else
             {
-                if (GetAllAdjacentTiles().Contains(previousSelected.gameObject))
+                if (!swapping)//GetAllAdjacentTiles().Contains(previousSelected.gameObject))
                 {
-                    SwapSprite(previousSelected.renderer);
+                    SwapSprite(previousSelected);
 
-                    previousSelected.ClearAllMatches(); //looks for matches of previousSelected
+                    //previousSelected.ClearAllMatches(); //looks for matches of previousSelected
 
                     previousSelected.Deselect();
 
-                    ClearAllMatches(); //looks for matches of current
+                    //ClearAllMatches(); //looks for matches of current
                 }
                 else
                 {
@@ -88,17 +98,40 @@ public class TileTest : MonoBehaviour
         }
     }
 
-    public void SwapSprite(SpriteRenderer render2)
+    public void SwapSprite(TileTest pTile)
     {
-        if (renderer.sprite == render2.sprite)
+        Vector2 target = pTile.transform.position;
+        Debug.Log(target);
+        if (transform.position.x < target.x)
         {
-            return;
+            hori = 1;
+        }
+        if (transform.position.x > target.x)
+        {
+            hori = -1;
+        }
+        if (transform.position.y < target.y)
+        {
+            vert = 1;
+        }
+        if (transform.position.y > target.y)
+        {
+            vert = -1;
         }
 
-        Sprite tempSprite = render2.sprite; //sets targetsprite to temp
-        render2.sprite = renderer.sprite; //changes targetsprite to selected sprite
-        renderer.sprite = tempSprite; //changes selected sprite to temp
+        while (transform.position.x != target.x || transform.position.y != target.y)
+        {
+            Debug.Log(transform.position.x + ", " + target.x);
+            rb.velocity = new Vector2(swapSpeed * hori, swapSpeed * vert);
+        }
+
+        //swapping = false;
+
+        //Sprite tempSprite = render2.sprite; //sets targetsprite to temp
+        //render2.sprite = renderer.sprite; //changes targetsprite to selected sprite
+        //renderer.sprite = tempSprite; //changes selected sprite to temp
     }
+
 
 
     private GameObject GetAdjacent(Vector2 castDir)
