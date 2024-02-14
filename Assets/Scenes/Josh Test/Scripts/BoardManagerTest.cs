@@ -18,6 +18,7 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsSwapping { get; set; } //checks if it is swapping
 
     private float border = 0.1f; //border between sprites
+    private float shiftDelay = 0.15f;
 
     void Start()
     {
@@ -29,7 +30,9 @@ public class BoardManagerTest : MonoBehaviour
         BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
 
         CreateBoard(offset.x + border, offset.y + border);
-        IsSwapping = false;
+
+        IsSwapping = false; //set to false initially
+        IsShifting = false; 
     }
 
     // Update is called once per frame
@@ -53,9 +56,8 @@ public class BoardManagerTest : MonoBehaviour
         {
             for (int y = 0; y < ySize; y++)
             {
-                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //sets newTile to make Tile prefabs
-
-                tiles[x, y] = newTile; //sets Tile to it's x and y location
+                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
+                tiles[x, y] = newTile; //sets Tile to it's respective array location
 
                 newTile.transform.parent = transform; //parents new tile to board manager
 
@@ -98,7 +100,7 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
-    private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = 0.2f)
+    private IEnumerator ShiftTilesDown(int x, int yStart)
     {
         IsShifting = true; //makes it so you can't swap
         List<SpriteRenderer> renders = new List<SpriteRenderer>();
