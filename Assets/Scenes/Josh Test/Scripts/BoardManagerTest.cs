@@ -13,12 +13,16 @@ public class BoardManagerTest : MonoBehaviour
     public int xSize, ySize; //size of board (set in Unity)
 
     public GameObject[,] tiles; //tiles in board as an 2D array
-
+    private GameObject[,] brickBoard;
     public bool IsShifting { get; set; } //checks if it is shifting
     public bool IsSwapping { get; set; } //checks if it is swapping
 
     private float border = 0.1f; //border between sprites
     private float shiftDelay = 0.15f;
+    public bool bricked = false;
+
+    bool fRunning = false;
+    bool justChecked = false;
 
     void Start()
     {
@@ -39,12 +43,24 @@ public class BoardManagerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (!IsShifting && !fRunning && !IsSwapping)
+        {
+            if (!justChecked)
+            {
+                CheckForBrick();
+                Debug.Log("checking");
+                if (bricked)
+                {
+                    Debug.Log(bricked);
+                }
+            }
+        }
     }
 
     private void CreateBoard(float xOffset, float yOffset)
     {
         tiles = new GameObject[xSize, ySize];  //creates board with given size   
+        brickBoard = new GameObject[xSize, ySize];
 
         float startX = transform.position.x;
         float startY = transform.position.y;
@@ -58,9 +74,12 @@ public class BoardManagerTest : MonoBehaviour
             for (int y = 0; y < ySize; y++)
             {
                 GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
+                GameObject brickTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 10f, startY + (yOffset * y) - 10f, 0), tile.transform.rotation);
                 tiles[x, y] = newTile; //sets Tile to it's respective array location
+                brickBoard[x, y] = brickTile;
 
                 newTile.transform.parent = transform; //parents new tile to board manager
+                brickTile.transform.parent = transform;
 
                 List<Sprite> possibleResources = new List<Sprite>();
                 possibleResources.AddRange(resources); //adds all resources to list
@@ -72,14 +91,23 @@ public class BoardManagerTest : MonoBehaviour
 
                 newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
 
+
                 previousLeft[y] = newSprite; //sets current sprite as left
                 previousBelow = newSprite; //sets current sprite as bottom
 
             }
         }
+
+        CheckForBrick();
+        if (bricked)
+        {
+            Debug.Log(bricked);
+        }
     }
     public IEnumerator FindNullTiles()
     {
+        fRunning = true;
+        justChecked = false;
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
@@ -99,6 +127,7 @@ public class BoardManagerTest : MonoBehaviour
                 tiles[x, y].GetComponent<TileTest>().ClearAllMatches(); //re-checks board
             }
         }
+        fRunning = false;
     }
 
     private IEnumerator ShiftTilesDown(int x, int yStart)
@@ -134,7 +163,7 @@ public class BoardManagerTest : MonoBehaviour
             }
         }
 
-        IsShifting = false; //allows swawpping
+        IsShifting = false; //allows swapping
     }
 
     private Sprite GetNewSprite(int x, int y)
@@ -159,4 +188,55 @@ public class BoardManagerTest : MonoBehaviour
     }
 
 
+    private void CheckForBrick()
+    {
+        justChecked = true;
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                brickBoard[x, y].GetComponent<TileTest>().GetComponent<SpriteRenderer>().sprite = tiles[x, y].GetComponent<SpriteRenderer>().sprite;
+            }
+        }
+        
+        for (int x = 0; x < xSize - 1; x++)
+        {
+            for (int y = 0; y < ySize - 1; y++)
+            {
+                if (brickBoard[x, y].GetComponent<TileTest>().TestBoard(brickBoard[x, y + 1].GetComponent<TileTest>()))
+                {
+                    bricked = false;
+                    return;
+                }
+                if (brickBoard[x, y].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, y].GetComponent<TileTest>()))
+                {
+                    bricked = false;
+                    return;
+                }
+            }
+            if (brickBoard[x, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, ySize - 1].GetComponent<TileTest>()))
+            {
+                bricked = false;
+                return;
+            }
+        }
+
+        if (brickBoard[xSize - 1, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[xSize - 2, ySize - 1].GetComponent<TileTest>()))
+        {
+            bricked = false;
+            return;
+        }
+        if (brickBoard[xSize - 1, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[xSize - 1, ySize - 2].GetComponent<TileTest>()))
+        {
+            bricked = false;
+            return;
+        }
+
+        bricked = true;
+    }
+
+
 }
+
+
+
