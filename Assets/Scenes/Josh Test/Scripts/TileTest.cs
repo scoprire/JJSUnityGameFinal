@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.VFX;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static UnityEngine.GraphicsBuffer;
 
 public class TileTest : MonoBehaviour
@@ -12,8 +13,6 @@ public class TileTest : MonoBehaviour
     private new SpriteRenderer renderer;
     public new Transform transform;
     public new Rigidbody2D rb;
-
-    public GameObject node;
 
     public Color startColor; //color when starting
     private static Color selectedColor = new Color(.5f, .5f, .5f, 1.0f); //color when selected
@@ -178,11 +177,13 @@ public class TileTest : MonoBehaviour
             matchingTiles.AddRange(FindMatch(paths[i]));
         }
 
+
         if (matchingTiles.Count >= 2) //checks how many matching tiles
         {
+
             for (int i = 0; i < matchingTiles.Count; i++) 
             {
-                matchingTiles[i].GetComponent<TileTest>().NodeMake(renderer.sprite.name);
+                BoardManagerTest.instance.NodeMake(matchingTiles[i].GetComponent<Transform>().position, matchingTiles[i].GetComponent<SpriteRenderer>().sprite.name);
                 matchingTiles[i].GetComponent<SpriteRenderer>().sprite = null; //sets sprite to null (invisible)   
             }
             matchFound = true; //set Match found
@@ -200,7 +201,7 @@ public class TileTest : MonoBehaviour
         if (matchFound)
         {
 
-            NodeMake(renderer.sprite.name);
+            BoardManagerTest.instance.NodeMake(transform.position, renderer.sprite.name);
             renderer.sprite = null; //sets started sprite to null
             matchFound = false; //resets matchfound
 
@@ -248,50 +249,6 @@ public class TileTest : MonoBehaviour
             return false;
         }
     }
-
-    private void NodeMake(string spriteName)
-    {
-        if (!BoardManagerTest.instance.IsResetting)
-        {
-            GameObject newNode = Instantiate(node, transform.position, node.transform.rotation);
-            Debug.Log("node");
-            newNode.transform.parent = BoardManagerTest.instance.transform;
-
-
-            Vector2 end;
-            Debug.Log(spriteName);
-            switch (spriteName)
-            {
-                case "Circle":
-                    end = new Vector2(5, 5);
-                    break;
-
-                case "Triangle":
-                    end = new Vector2(0, 5);
-                    break;
-
-                case "9-Sliced":
-                    end = new Vector2(-5, 5);
-                    break;
-
-                case "Hexagon Pointed-Top":
-                    end = new Vector2(5, 0);
-                    break;
-
-                case "Hexagon Flat-Top":
-                    end = new Vector2(-5, 0);
-                    break;
-
-                default:
-                    end = new Vector2(10, 10);
-                    break;
-            }
-            Debug.Log("functionT");
-            newNode.GetComponent<Node>().moveHere(end);
-        }
-    }
-
-
 
 }
 

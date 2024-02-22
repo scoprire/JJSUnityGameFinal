@@ -10,12 +10,13 @@ public class BoardManagerTest : MonoBehaviour
     public static BoardManagerTest instance;
     private Transform BoardTransform;
     public List<Sprite> resources = new List<Sprite>(); //sprites of resources
-    public GameObject tile, bullet, node;  //prefab of tile 
+    public GameObject tile, node;  //prefab of tile 
  
     public int xSize, ySize; //size of board (set in Unity)
 
     public GameObject[,] tiles; //tiles in board as an 2D array
     private GameObject[,] brickBoard;
+    
     public bool IsShifting { get; set; } //checks if it is shifting
     public bool IsSwapping { get; set; } //checks if it is swapping
 
@@ -28,6 +29,10 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsResetting { get; set; }
 
     public Button resetBoard;
+
+    private int[] rBullet;
+    private int cBullet;
+    [SerializeField] private GameObject[] bullets;
     void Start()
     {
 
@@ -44,6 +49,9 @@ public class BoardManagerTest : MonoBehaviour
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
+
+        rBullet = new int[5];
+        cBullet = 0;
         
         CreateBoard(offset.x + border, offset.y + border);  
     }
@@ -250,17 +258,6 @@ public class BoardManagerTest : MonoBehaviour
         bricked = true;
     }
 
-    /*
-    private void NodeMake(Vector2 start)
-    {
-        if (!IsResetting)
-        {
-            GameObject newNode = Instantiate(node, start, node.transform.rotation);
-            newNode.transform.parent = transform;
-            newNode.GetComponent<Node>().moveHere();
-        }
-    }*/
-
     public void ResetBoard()
     {
         shiftDelay = 0.05f;
@@ -274,5 +271,80 @@ public class BoardManagerTest : MonoBehaviour
         }
         resetBoard.gameObject.SetActive(false);
         StartCoroutine(BoardManagerTest.instance.FindNullTiles());
+    }
+
+
+    public void NodeMake(Vector2 start, string spriteName)
+    {
+        if (!IsResetting)
+        {
+            GameObject newNode = Instantiate(node, start, node.transform.rotation, transform);
+            Vector2 end;
+            float speed;
+
+            switch (spriteName)
+            {
+                case "Circle":
+                    end = ToBullet();
+                    speed = Random.Range(0.5f, 0.8f);
+                    break;
+
+                case "Triangle":
+                    end = new Vector2(0, 5);
+                    speed = Random.Range(0.1f, 0.15f);
+                    break;
+
+                case "9-Sliced":
+                    end = new Vector2(-5, 5);
+                    speed = Random.Range(0.1f, 0.15f);
+                    break;
+
+                case "Hexagon Pointed-Top":
+                    end = new Vector2(5, 0);
+                    speed = Random.Range(0.1f, 0.15f);
+                    break;
+
+                case "Hexagon Flat-Top":
+                    end = new Vector2(-5, 0);
+                    speed = Random.Range(0.1f, 0.15f);
+                    break;
+
+                default:
+                    end = new Vector2(10, 10);
+                    speed = Random.Range(0.1f, 0.15f);
+                    break;
+            }
+
+            newNode.GetComponent<Node>().moveHere(end, speed, "" + (cBullet + 1));
+        }
+    }
+
+    private Vector2 ToBullet()
+    {
+        for (int i = cBullet; i < 5; i++) 
+        {
+            Debug.Log(bullets[cBullet].GetComponent<Bullet>().countToShoot);
+            if (cBullet == 4 && rBullet[cBullet] >= bullets[cBullet].GetComponent<Bullet>().countToShoot)
+            {
+                cBullet = 0;
+                rBullet = new int[5];
+                i = 0;
+            }
+            if (rBullet[i] < bullets[cBullet].GetComponent<Bullet>().countToShoot)
+            {
+                rBullet[i]++;
+                cBullet = i;
+                break;
+            }
+        }
+
+        return bullets[cBullet].GetComponent<Transform>().position;
+    }
+
+
+
+    public void BulletShoot()
+    {
+        
     }
 }
