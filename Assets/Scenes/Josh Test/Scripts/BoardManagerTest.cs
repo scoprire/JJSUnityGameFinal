@@ -9,7 +9,8 @@ public class BoardManagerTest : MonoBehaviour
     public static BoardManagerTest instance;
     private Transform BoardTransform;
     public List<Sprite> resources = new List<Sprite>(); //sprites of resources
-    public GameObject tile;  //prefab of tile 
+    public GameObject tile, bullet, node;  //prefab of tile 
+ 
     public int xSize, ySize; //size of board (set in Unity)
 
     public GameObject[,] tiles; //tiles in board as an 2D array
@@ -115,6 +116,7 @@ public class BoardManagerTest : MonoBehaviour
             {
                 if (tiles[x, y].GetComponent<SpriteRenderer>().sprite == null) //looks for null (invisible) tiles
                 {
+                    
                     yield return StartCoroutine(ShiftTilesDown(x, y)); //starts shift in current coloumn
                     break; //moves to next coloumn
                 }
@@ -141,7 +143,8 @@ public class BoardManagerTest : MonoBehaviour
         {  
             SpriteRenderer render = tiles[x, y].GetComponent<SpriteRenderer>();
             if (render.sprite == null)
-            { 
+            {
+                NodeMake(new Vector2(tiles[x, y].GetComponent<Transform>().position.x, tiles[x, y].GetComponent<Transform>().position.y));
                 nullCount++; //counts how many missing tiles
             }
             renders.Add(render); //adds tiles above selected tile inclusive into list
@@ -187,6 +190,7 @@ public class BoardManagerTest : MonoBehaviour
 
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
+<<<<<<< Updated upstream
 
 
     private void CheckForBrick()
@@ -232,4 +236,14 @@ public class BoardManagerTest : MonoBehaviour
     }
 
 
+=======
+    
+    private void NodeMake(Vector2 start)
+    {
+        GameObject newNode = Instantiate(node, start, node.transform.rotation);
+        newNode.transform.parent = transform;
+        newNode.GetComponent<Node>().moveHere();
+    }
+    
+>>>>>>> Stashed changes
 }
