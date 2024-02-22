@@ -190,7 +190,7 @@ public class BoardManagerTest : MonoBehaviour
 
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
-<<<<<<< Updated upstream
+
 
 
     private void CheckForBrick()
@@ -235,8 +235,6 @@ public class BoardManagerTest : MonoBehaviour
         bricked = true;
     }
 
-
-=======
     
     private void NodeMake(Vector2 start)
     {
@@ -245,5 +243,5 @@ public class BoardManagerTest : MonoBehaviour
         newNode.GetComponent<Node>().moveHere();
     }
     
->>>>>>> Stashed changes
+
 }
