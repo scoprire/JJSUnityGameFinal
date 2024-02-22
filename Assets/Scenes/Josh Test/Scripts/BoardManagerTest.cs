@@ -25,7 +25,7 @@ public class BoardManagerTest : MonoBehaviour
 
     bool fRunning = false;
     bool justChecked = false;
-    bool resetting = false;
+    public bool IsResetting { get; set; }
 
     public Button resetBoard;
     void Start()
@@ -43,6 +43,7 @@ public class BoardManagerTest : MonoBehaviour
         
         IsSwapping = false; //set to false initially
         IsShifting = false;
+        IsResetting = false;
         
         CreateBoard(offset.x + border, offset.y + border);  
     }
@@ -62,11 +63,11 @@ public class BoardManagerTest : MonoBehaviour
                 }
             }
 
-            if (resetting)
+            if (IsResetting)
             {
                 Debug.Log("Done Resetting");
                 shiftDelay = 0.15f;
-                resetting = false;
+                IsResetting = false;
             }
         }
     }
@@ -154,7 +155,7 @@ public class BoardManagerTest : MonoBehaviour
             SpriteRenderer render = tiles[x, y].GetComponent<SpriteRenderer>();
             if (render.sprite == null)
             {
-                NodeMake(new Vector2(tiles[x, y].GetComponent<Transform>().position.x, tiles[x, y].GetComponent<Transform>().position.y));
+                //NodeMake(new Vector2(tiles[x, y].GetComponent<Transform>().position.x, tiles[x, y].GetComponent<Transform>().position.y));
                 nullCount++; //counts how many missing tiles
             }
             renders.Add(render); //adds tiles above selected tile inclusive into list
@@ -249,27 +250,26 @@ public class BoardManagerTest : MonoBehaviour
         bricked = true;
     }
 
-    
+    /*
     private void NodeMake(Vector2 start)
     {
-        if (!resetting)
+        if (!IsResetting)
         {
             GameObject newNode = Instantiate(node, start, node.transform.rotation);
             newNode.transform.parent = transform;
             newNode.GetComponent<Node>().moveHere();
         }
-    }
+    }*/
 
     public void ResetBoard()
     {
         shiftDelay = 0.05f;
-        resetting = true;
+        IsResetting = true;
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
             {
                 tiles[x, y].GetComponent<SpriteRenderer>().sprite = null;
-
             }
         }
         resetBoard.gameObject.SetActive(false);

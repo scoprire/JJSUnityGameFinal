@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transform: {fileID: 0}
   rb: {fileID: 0}
+  node: {fileID: 8964298761856114450, guid: 1067c8d212350104f8dc4b40785d8a93, type: 3}
   startColor: {r: 0, g: 0, b: 0, a: 0}
   tileScale: 0.5
   swapTime: 0.25
