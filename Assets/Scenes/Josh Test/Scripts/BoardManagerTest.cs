@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class BoardManagerTest : MonoBehaviour
 {
@@ -24,7 +25,9 @@ public class BoardManagerTest : MonoBehaviour
 
     bool fRunning = false;
     bool justChecked = false;
+    bool resetting = false;
 
+    public Button resetBoard;
     void Start()
     {
 
@@ -35,10 +38,13 @@ public class BoardManagerTest : MonoBehaviour
 
         BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
 
-        CreateBoard(offset.x + border, offset.y + border);
-
+        resetBoard.gameObject.SetActive(false);
+        resetBoard.onClick.AddListener(ResetBoard);
+        
         IsSwapping = false; //set to false initially
-        IsShifting = false; 
+        IsShifting = false;
+        
+        CreateBoard(offset.x + border, offset.y + border);  
     }
 
     // Update is called once per frame
@@ -54,6 +60,13 @@ public class BoardManagerTest : MonoBehaviour
                 {
                     Debug.Log(bricked);
                 }
+            }
+
+            if (resetting)
+            {
+                Debug.Log("Done Resetting");
+                shiftDelay = 0.15f;
+                resetting = false;
             }
         }
     }
@@ -101,11 +114,8 @@ public class BoardManagerTest : MonoBehaviour
 
         Debug.Log("checking");
         CheckForBrick();
-        if (bricked)
-        {
-            Debug.Log(bricked);
-        }
     }
+
     public IEnumerator FindNullTiles()
     {
         fRunning = true;
@@ -219,29 +229,50 @@ public class BoardManagerTest : MonoBehaviour
                     return;
                 }
             }
-            if (brickBoard[x, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, ySize - 1].GetComponent<TileTest>())) //checks whole top row
+            if (brickBoard[x, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, ySize - 1].GetComponent<TileTest>())) //checks horizontal swap whole top row
             {
                 bricked = false;
                 return;
             }
         }
 
-        if (brickBoard[xSize - 1, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[xSize - 1, ySize - 2].GetComponent<TileTest>())) //checks top right down swap
+        for (int y = 0; y < ySize - 1; y++)
         {
-            bricked = false;
-            return;
+            if (brickBoard[xSize - 1, y].GetComponent<TileTest>().TestBoard(brickBoard[xSize - 1, y + 1].GetComponent<TileTest>())) //Checks above swap in last coloumn
+            {
+                bricked = false;
+                return;
+            }
         }
 
+        resetBoard.gameObject.SetActive(true);
         bricked = true;
     }
 
     
     private void NodeMake(Vector2 start)
     {
-        GameObject newNode = Instantiate(node, start, node.transform.rotation);
-        newNode.transform.parent = transform;
-        newNode.GetComponent<Node>().moveHere();
+        if (!resetting)
+        {
+            GameObject newNode = Instantiate(node, start, node.transform.rotation);
+            newNode.transform.parent = transform;
+            newNode.GetComponent<Node>().moveHere();
+        }
     }
-    
 
+    public void ResetBoard()
+    {
+        shiftDelay = 0.05f;
+        resetting = true;
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                tiles[x, y].GetComponent<SpriteRenderer>().sprite = null;
+
+            }
+        }
+        resetBoard.gameObject.SetActive(false);
+        StartCoroutine(BoardManagerTest.instance.FindNullTiles());
+    }
 }
