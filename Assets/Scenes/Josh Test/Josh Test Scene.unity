@@ -266,8 +266,9 @@ MonoBehaviour:
   - {fileID: -2135585597343286014, guid: e9c1437e22fa0e143a157a51a57c17a3, type: 3}
   - {fileID: 7482667652216324306, guid: 2c675337c34988b47898b550635d7f5e, type: 3}
   tile: {fileID: 5033429822552806161, guid: ebcea738ebf93b24e86e01c16a9516cd, type: 3}
-  xSize: 10
-  ySize: 10
+  xSize: 3
+  ySize: 3
+  bricked: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class TileTest : MonoBehaviour
     [SerializeField] private float tileScale = 1f;
     [SerializeField] private float swapTime = 0.25f;
 
-    void Start()
+    void Awake()
     {
         renderer = GetComponent<SpriteRenderer>(); //set renderer 
         transform = GetComponent<Transform>(); //set transform
@@ -225,7 +225,23 @@ public class TileTest : MonoBehaviour
         return false;
     }
 
-
+    public bool TestBoard(TileTest other)
+    {
+        Sprite temp = other.renderer.sprite;
+        other.renderer.sprite = renderer.sprite; //swaps sprites with each other
+        renderer.sprite = temp;
+        if (other.CheckMatches() || CheckMatches())
+        {
+            return true;
+        }
+        else
+        {
+            Sprite temp2 = other.renderer.sprite;
+            other.renderer.sprite = renderer.sprite; //swaps sprites with each other
+            renderer.sprite = temp2;
+            return false;
+        }
+    }
 
 
 }
