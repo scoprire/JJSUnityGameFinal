@@ -24,15 +24,15 @@ public class BoardManagerTest : MonoBehaviour
     private float shiftDelay = 0.15f;
     public bool bricked = false;
 
-    bool fRunning = false;
-    bool justChecked = false;
-    public bool IsResetting { get; set; }
+    bool fRunning = false; //checks if coRoutine is running
+    bool justChecked = false; //checks if board checks
+    public bool IsResetting { get; set; } //if board is resetting
 
-    public Button resetBoard;
+    public Button resetBoard; //button to reset
 
-    private int[] rBullet;
+    private int[] rBullet; //
     private int cBullet;
-    [SerializeField] private GameObject[] bullets;
+    [SerializeField] private GameObject[] bullets; //to access bullets
     void Start()
     {
 
@@ -114,6 +114,7 @@ public class BoardManagerTest : MonoBehaviour
 
                 newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
 
+                newTile.GetComponent<SpriteRenderer>().color = GetNewColor(newSprite.name);
 
                 previousLeft[y] = newSprite; //sets current sprite as left
                 previousBelow = newSprite; //sets current sprite as bottom
@@ -175,13 +176,16 @@ public class BoardManagerTest : MonoBehaviour
             if (renders.Count == 1)
             {
                 renders[0].sprite = GetNewSprite(x, ySize - 1);
+                renders[0].color = GetNewColor(renders[0].sprite.name);
             }
             else
             {
                 for (int k = 0; k < renders.Count - 1; k++)
                 {
                     renders[k].sprite = renders[k + 1].sprite; //replaces current tile with one above
+                    renders[k].color = renders[k + 1].color;
                     renders[k + 1].sprite = GetNewSprite(x, ySize - 1); //creates new tile at the very top
+                    renders[k + 1].color = GetNewColor(renders[k + 1].sprite.name);
                 }
             }
         }
@@ -210,7 +214,29 @@ public class BoardManagerTest : MonoBehaviour
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
 
+    private Color GetNewColor(string name)
+    {
+        switch (name)
+        {
+            case "Circle":
+                return Color.blue;
 
+            case "Triangle":
+                return Color.red;
+
+            case "9-Sliced":
+                return Color.yellow;
+
+            case "Hexagon Pointed-Top":
+                return Color.green;
+
+            case "Hexagon Flat-Top":
+                return Color.cyan;
+
+            default:
+                return Color.white;
+        }
+    }
 
     private void CheckForBrick()
     {

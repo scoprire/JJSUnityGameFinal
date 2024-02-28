@@ -44,6 +44,7 @@ public class TileTest : MonoBehaviour
 
     private void Select()
     {
+        startColor = renderer.color;
         isSelected = true;
         renderer.color = selectedColor;
         previousSelected = gameObject.GetComponent<TileTest>();
@@ -124,8 +125,13 @@ public class TileTest : MonoBehaviour
         }
 
         Sprite temp = pTile.renderer.sprite;
+        Color tColor = pTile.GetComponent<TileTest>().renderer.color;
+
         pTile.renderer.sprite = renderer.sprite; //swaps sprites with each other
+        pTile.renderer.color = renderer.color;
+
         renderer.sprite = temp;
+        renderer.color = tColor;
 
 
         Vector2 middle = transform.position;
