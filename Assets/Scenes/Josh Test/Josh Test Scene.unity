@@ -533,7 +533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &655748773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,8 +970,8 @@ MonoBehaviour:
   - {fileID: 7482667652216324306, guid: 2c675337c34988b47898b550635d7f5e, type: 3}
   tile: {fileID: 5033429822552806161, guid: ebcea738ebf93b24e86e01c16a9516cd, type: 3}
   node: {fileID: 8964298761856114450, guid: 1067c8d212350104f8dc4b40785d8a93, type: 3}
-  xSize: 7
-  ySize: 7
+  xSize: 3
+  ySize: 3
   bricked: 0
   resetBoard: {fileID: 813890425}
   bullets:
