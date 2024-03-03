@@ -24,13 +24,13 @@ public class BoardManagerTest : MonoBehaviour
     private float shiftDelay = 0.15f;
     public bool bricked = false;
 
-    bool fRunning = false; //checks if coRoutine is running
-    bool justChecked = false; //checks if board checks
-    public bool IsResetting { get; set; } //if board is resetting
+    bool fRunning = false;
+    bool justChecked = false;
+    public bool IsResetting { get; set; }
 
-    public Button resetBoard; //button to reset
+    public Button resetBoard;
 
-    private int[] rBullet; //
+    private int[] rBullet;
     private int cBullet;
     [SerializeField] private GameObject[] bullets; //to access bui
     void Start()
@@ -210,7 +210,29 @@ public class BoardManagerTest : MonoBehaviour
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
 
+    private Color GetNewColor(string name)
+    {
+        switch (name)
+        {
+            case "Circle":
+                return Color.blue;
 
+            case "Triangle":
+                return Color.red;
+
+            case "9-Sliced":
+                return Color.yellow;
+
+            case "Hexagon Pointed-Top":
+                return Color.green;
+
+            case "Hexagon Flat-Top":
+                return Color.cyan;
+
+            default:
+                return Color.white;
+        }
+    }
 
     private void CheckForBrick()
     {
