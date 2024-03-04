@@ -976,6 +976,12 @@ MonoBehaviour:
   - {fileID: 1013976685}
   - {fileID: 497317105}
   - {fileID: 513155402}
+  gResources:
+  - {fileID: 1591381487688778, guid: da6e8bbd483d22c449e703a7e40afde4, type: 3}
+  - {fileID: 1305964118088936, guid: 5f285e9508d4e3f4488b284bb80a0b9b, type: 3}
+  - {fileID: 4228739909290933118, guid: fbd5e240acb376b4cae24ed2a9233c60, type: 3}
+  - {fileID: 4378803585177359260, guid: d2ba961718fdab94fa5a57a207c19b9f, type: 3}
+  - {fileID: 1150642482621776, guid: a1b4f5aeb08a9ba409b89043963cc60b, type: 3}
 --- !u!1001 &1863161742
 PrefabInstance:
   m_ObjectHideFlags: 0

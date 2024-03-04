@@ -32,7 +32,9 @@ public class BoardManagerTest : MonoBehaviour
 
     private int[] rBullet;
     private int cBullet;
-    [SerializeField] private GameObject[] bullets; //to access bui
+    [SerializeField] private GameObject[] bullets;
+
+    public GameObject[] gResources;
     void Start()
     {
 
@@ -114,6 +116,40 @@ public class BoardManagerTest : MonoBehaviour
 
                 newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
 
+                /*
+                switch (newSprite.name)
+                {
+                    case "Circle":
+                        GameObject a = Instantiate(gResources[0], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[0].transform.rotation);
+                        a.transform.parent = newTile.transform;
+                        break;
+
+                    case "Triangle":
+                        GameObject b = Instantiate(gResources[1], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[1].transform.rotation);
+                        b.transform.parent = newTile.transform;
+                        break;
+
+                    case "9-Sliced":
+                        GameObject c = Instantiate(gResources[2], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[2].transform.rotation);
+                        c.transform.parent = newTile.transform;
+                        break;
+
+                    case "Hexagon Pointed-Top":
+                        GameObject d = Instantiate(gResources[3], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[3].transform.rotation);
+                        d.transform.parent = newTile.transform;
+                        break;
+
+                    case "Hexagon Flat-Top":
+                        GameObject e = Instantiate(gResources[4], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[4].transform.rotation);
+                        e.transform.parent = newTile.transform;
+                        break;
+
+                    default:
+                        GameObject f = Instantiate(gResources[0], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[0].transform.rotation);
+                        f.transform.parent = newTile.transform;
+                        break;
+                }
+                */
 
                 previousLeft[y] = newSprite; //sets current sprite as left
                 previousBelow = newSprite; //sets current sprite as bottom
@@ -210,30 +246,6 @@ public class BoardManagerTest : MonoBehaviour
         return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
 
-    private Color GetNewColor(string name)
-    {
-        switch (name)
-        {
-            case "Circle":
-                return Color.blue;
-
-            case "Triangle":
-                return Color.red;
-
-            case "9-Sliced":
-                return Color.yellow;
-
-            case "Hexagon Pointed-Top":
-                return Color.green;
-
-            case "Hexagon Flat-Top":
-                return Color.cyan;
-
-            default:
-                return Color.white;
-        }
-    }
-
     private void CheckForBrick()
     {
         justChecked = true;
@@ -289,6 +301,11 @@ public class BoardManagerTest : MonoBehaviour
             for (int y = 0; y < ySize; y++)
             {
                 tiles[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                tiles[x, y].transform.GetChild(0).gameObject.SetActive(false);
+                tiles[x, y].transform.GetChild(1).gameObject.SetActive(false);
+                tiles[x, y].transform.GetChild(2).gameObject.SetActive(false);
+                tiles[x, y].transform.GetChild(3).gameObject.SetActive(false);
+                tiles[x, y].transform.GetChild(4).gameObject.SetActive(false);
             }
         }
         resetBoard.gameObject.SetActive(false);

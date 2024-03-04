@@ -34,18 +34,69 @@ public class TileTest : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); //set rigidbody
         startColor = renderer.color; //sets startColor to starting color
         transform.localScale = new Vector3(tileScale, tileScale, tileScale);
+        renderer.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        switch (renderer.sprite.name)
+        {
+            case "Circle":
+                transform.GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(false);
+                break;
 
+            case "Triangle":
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(true);
+                transform.GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(false);
+                break;
+
+            case "9-Sliced":
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(true);
+                transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(false);
+                break;
+
+            case "Hexagon Pointed-Top":
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(true);
+                transform.GetChild(4).gameObject.SetActive(false);
+                break;
+
+            case "Hexagon Flat-Top":
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(true);
+                break;
+
+            default:
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(false);
+                break;
+        }
     }
 
     private void Select()
     {
         isSelected = true;
         renderer.color = selectedColor;
+        transform.GetChild(5).gameObject.SetActive(true);
         previousSelected = gameObject.GetComponent<TileTest>();
     }
 
@@ -53,6 +104,7 @@ public class TileTest : MonoBehaviour
     {
         isSelected = false;
         renderer.color = startColor;
+        transform.GetChild(5).gameObject.SetActive(false);
         previousSelected = null;
     }
 
@@ -139,7 +191,7 @@ public class TileTest : MonoBehaviour
     */
     IEnumerator SwapSprite(TileTest pTile)
     {
-        pTile.renderer.color = pTile.GetComponent<TileTest>().startColor; //clears select() color without clearing select
+        pTile.transform.GetChild(5).gameObject.SetActive(false); //clears select() color without clearing select
 
         Vector2 start = transform.position;
         Vector2 end = pTile.transform.position;
@@ -152,9 +204,12 @@ public class TileTest : MonoBehaviour
             yield return null;
         }
 
+        
         Sprite temp = pTile.renderer.sprite;
         pTile.renderer.sprite = renderer.sprite; //swaps sprites with each other
+        //pTile.transform.GetChild(0).gameObject.transform.SetParent(transform, false);
         renderer.sprite = temp;
+        //transform.GetChild(0).gameObject.transform.SetParent(pTile.transform, false);
 
         for (float t = 0.5f; t < 1; t += Time.deltaTime / (swapTime + (1.5f - t*1.5f))) //moves sprites back to their original position with new sprite render
         {
@@ -211,6 +266,11 @@ public class TileTest : MonoBehaviour
             for (int i = 0; i < matchingTiles.Count; i++) 
             {
                 BoardManagerTest.instance.NodeMake(matchingTiles[i].GetComponent<Transform>().position, matchingTiles[i].GetComponent<SpriteRenderer>().sprite.name);
+                matchingTiles[i].transform.GetChild(0).gameObject.SetActive(false);
+                matchingTiles[i].transform.GetChild(1).gameObject.SetActive(false);
+                matchingTiles[i].transform.GetChild(2).gameObject.SetActive(false);
+                matchingTiles[i].transform.GetChild(3).gameObject.SetActive(false);
+                matchingTiles[i].transform.GetChild(4).gameObject.SetActive(false);
                 matchingTiles[i].GetComponent<SpriteRenderer>().sprite = null; //sets sprite to null (invisible)   
             }
             matchFound = true; //set Match found
@@ -230,6 +290,11 @@ public class TileTest : MonoBehaviour
 
             BoardManagerTest.instance.NodeMake(transform.position, renderer.sprite.name);
             renderer.sprite = null; //sets started sprite to null
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
+            transform.GetChild(3).gameObject.SetActive(false);
+            transform.GetChild(4).gameObject.SetActive(false);
             matchFound = false; //resets matchfound
 
             StopCoroutine(BoardManagerTest.instance.FindNullTiles()); 
