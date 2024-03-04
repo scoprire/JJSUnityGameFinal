@@ -352,6 +352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4231855013105389218}
+  - component: {fileID: 2265068924953730129}
   m_Layer: 8
   m_Name: OrangeCrystalNot 1
   m_TagString: Untagged
@@ -379,6 +380,18 @@ Transform:
   - {fileID: 4231748403520490316}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2265068924953730129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228739909290933118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1614bbab2187c409587a833fa394c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4228768373662360334
 GameObject:
   m_ObjectHideFlags: 0

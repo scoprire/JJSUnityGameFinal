@@ -40,55 +40,58 @@ public class TileTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (renderer.sprite.name)
+        if (renderer.sprite != null)
         {
-            case "Circle":
-                transform.GetChild(0).gameObject.SetActive(true);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(false);
-                transform.GetChild(4).gameObject.SetActive(false);
-                break;
+            switch (renderer.sprite.name)
+            {
+                case "Circle":
+                    transform.GetChild(0).gameObject.SetActive(true);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(2).gameObject.SetActive(false);
+                    transform.GetChild(3).gameObject.SetActive(false);
+                    transform.GetChild(4).gameObject.SetActive(false);
+                    break;
 
-            case "Triangle":
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(true);
-                transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(false);
-                transform.GetChild(4).gameObject.SetActive(false);
-                break;
+                case "Triangle":
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(true);
+                    transform.GetChild(2).gameObject.SetActive(false);
+                    transform.GetChild(3).gameObject.SetActive(false);
+                    transform.GetChild(4).gameObject.SetActive(false);
+                    break;
 
-            case "9-Sliced":
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(true);
-                transform.GetChild(3).gameObject.SetActive(false);
-                transform.GetChild(4).gameObject.SetActive(false);
-                break;
+                case "9-Sliced":
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(2).gameObject.SetActive(true);
+                    transform.GetChild(3).gameObject.SetActive(false);
+                    transform.GetChild(4).gameObject.SetActive(false);
+                    break;
 
-            case "Hexagon Pointed-Top":
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(true);
-                transform.GetChild(4).gameObject.SetActive(false);
-                break;
+                case "Hexagon Pointed-Top":
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(2).gameObject.SetActive(false);
+                    transform.GetChild(3).gameObject.SetActive(true);
+                    transform.GetChild(4).gameObject.SetActive(false);
+                    break;
 
-            case "Hexagon Flat-Top":
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(false);
-                transform.GetChild(4).gameObject.SetActive(true);
-                break;
+                case "Hexagon Flat-Top":
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(2).gameObject.SetActive(false);
+                    transform.GetChild(3).gameObject.SetActive(false);
+                    transform.GetChild(4).gameObject.SetActive(true);
+                    break;
 
-            default:
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(false);
-                transform.GetChild(4).gameObject.SetActive(false);
-                break;
+                default:
+                    transform.GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(2).gameObject.SetActive(false);
+                    transform.GetChild(3).gameObject.SetActive(false);
+                    transform.GetChild(4).gameObject.SetActive(false);
+                    break;
+            }
         }
     }
 
@@ -289,12 +292,12 @@ public class TileTest : MonoBehaviour
         {
 
             BoardManagerTest.instance.NodeMake(transform.position, renderer.sprite.name);
-            renderer.sprite = null; //sets started sprite to null
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
             transform.GetChild(3).gameObject.SetActive(false);
             transform.GetChild(4).gameObject.SetActive(false);
+            renderer.sprite = null; //sets started sprite to null
             matchFound = false; //resets matchfound
 
             StopCoroutine(BoardManagerTest.instance.FindNullTiles()); 

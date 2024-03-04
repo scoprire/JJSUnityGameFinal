@@ -65,7 +65,7 @@ public class Bullet : MonoBehaviour
             transform.localScale = new Vector3(change, change, change);
             if (count == countToShoot && !moving)
             {
-                StartCoroutine(GoToPos(startPoint, new Vector2(6, 0)));
+                StartCoroutine(GoToPos(startPoint, new Vector2(7, -2)));
             }
         }
 
