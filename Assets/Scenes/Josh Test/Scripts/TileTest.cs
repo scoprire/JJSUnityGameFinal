@@ -25,7 +25,7 @@ public class TileTest : MonoBehaviour
     private bool matchFound = false;
 
     [SerializeField] private float tileScale = 1f;
-    [SerializeField] private float swapTime = 0.25f;
+    private float swapTime = 0.1f;
 
     void Awake()
     {
@@ -109,7 +109,7 @@ public class TileTest : MonoBehaviour
         }
         yield return null;
     }
-
+    /*
     IEnumerator SwapSprite(TileTest pTile)
     {
         pTile.renderer.color = pTile.GetComponent<TileTest>().startColor; //clears select() color without clearing select
@@ -133,6 +133,33 @@ public class TileTest : MonoBehaviour
         {
             pTile.transform.position = Vector2.Lerp(middle, end, t);
             transform.position = Vector2.Lerp(middle, start, t);
+            yield return null;
+        }
+    }
+    */
+    IEnumerator SwapSprite(TileTest pTile)
+    {
+        pTile.renderer.color = pTile.GetComponent<TileTest>().startColor; //clears select() color without clearing select
+
+        Vector2 start = transform.position;
+        Vector2 end = pTile.transform.position;
+
+
+        for (float t = 0; t < 0.5; t += Time.deltaTime / (swapTime + (0.75f - (t * 1.5f)) )) //moves sprites to the midpoint of both
+        {
+            pTile.transform.position = Vector2.MoveTowards(end, start, t);
+            transform.position = Vector2.MoveTowards(start, end, t);
+            yield return null;
+        }
+
+        Sprite temp = pTile.renderer.sprite;
+        pTile.renderer.sprite = renderer.sprite; //swaps sprites with each other
+        renderer.sprite = temp;
+
+        for (float t = 0.5f; t < 1; t += Time.deltaTime / (swapTime + (1.5f - t*1.5f))) //moves sprites back to their original position with new sprite render
+        {
+            pTile.transform.position = Vector2.MoveTowards(start, end, t);
+            transform.position = Vector2.MoveTowards(end, start, t);
             yield return null;
         }
     }
