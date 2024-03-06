@@ -153,7 +153,7 @@ MonoBehaviour:
   transform: {fileID: 0}
   rb: {fileID: 0}
   startColor: {r: 0, g: 0, b: 0, a: 0}
-  tileScale: 0.75
+  tileScale: 0.85
 --- !u!50 &-5971702466854764104
 Rigidbody2D:
   serializedVersion: 4
@@ -193,17 +193,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Geo_Icosahedron_Hex (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6536323910795234616, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,6 +248,10 @@ PrefabInstance:
     - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849481885100113707, guid: 72ce685a8f2663b488943dca80a8b91d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -285,15 +293,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5824846755353627736, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5824846755353627736, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5824846755353627736, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5824846755353627736, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -335,9 +343,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5824846755353627736, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7389662188914769483, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
       propertyPath: m_Name
       value: Geo_Torus_Hex_Hi (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389662188914769483, guid: 3e1d3c64a019c4041801a8a55b3f6eaf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -379,15 +395,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -429,9 +445,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7289147393822124896, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
       propertyPath: m_Name
       value: Geo_Dodecahedron (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7289147393822124896, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -475,17 +499,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Geo_Cube (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4615613452924549402, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
       propertyPath: m_LocalPosition.x
@@ -526,6 +554,10 @@ PrefabInstance:
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -633,15 +665,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
       propertyPath: m_LocalScale.x
-      value: 18
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
       propertyPath: m_LocalScale.y
-      value: 18
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
       propertyPath: m_LocalScale.z
-      value: 18
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
       propertyPath: m_LocalPosition.x
@@ -683,9 +715,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
       propertyPath: m_Name
       value: Geo_Sphere_Hi (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
