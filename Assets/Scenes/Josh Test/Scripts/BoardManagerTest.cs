@@ -99,7 +99,7 @@ public class BoardManagerTest : MonoBehaviour
             for (int y = 0; y < ySize; y++)
             {
                 GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
-                GameObject brickTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 10f, startY + (yOffset * y) - 10f, 0), tile.transform.rotation);
+                GameObject brickTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
                 tiles[x, y] = newTile; //sets Tile to it's respective array location
                 brickBoard[x, y] = brickTile;
 
