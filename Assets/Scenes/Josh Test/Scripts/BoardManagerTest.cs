@@ -21,7 +21,7 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsShifting { get; set; } //checks if it is shifting
     public bool IsSwapping { get; set; } //checks if it is swapping
 
-    private float border = 0.5f; //border between sprites
+    private float border = 0.3f; //border between sprites
     private float shiftDelay = 0.15f;
     public bool bricked = false;
 

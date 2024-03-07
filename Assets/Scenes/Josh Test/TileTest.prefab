@@ -153,7 +153,7 @@ MonoBehaviour:
   transform: {fileID: 0}
   rb: {fileID: 0}
   startColor: {r: 0, g: 0, b: 0, a: 0}
-  tileScale: 1
+  tileScale: 0.85
 --- !u!50 &-5971702466854764104
 Rigidbody2D:
   serializedVersion: 4
