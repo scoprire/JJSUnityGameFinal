@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 144868616}
   - component: {fileID: 144868615}
   - component: {fileID: 144868619}
+  - component: {fileID: 144868620}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -626,6 +627,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transition: {fileID: 303467021}
   transitionTime: 1
+--- !u!114 &144868620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144868614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d687537154440a3913a9a3c7977978c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraTarget: {fileID: 1297933628}
+  FollowDistance: 30
+  MaxFollowDistance: 100
+  MinFollowDistance: 2
+  ElevationAngle: 30
+  MaxElevationAngle: 85
+  MinElevationAngle: 0
+  OrbitalAngle: 0
+  CameraMode: 0
+  MovementSmoothing: 1
+  RotationSmoothing: 0
+  MovementSmoothingValue: 25
+  RotationSmoothingValue: 5
+  MoveSensitivity: 2
 --- !u!1 &146472599
 GameObject:
   m_ObjectHideFlags: 0
