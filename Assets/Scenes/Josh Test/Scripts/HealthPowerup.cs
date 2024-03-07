@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
-public class BonusResource : MonoBehaviour
+public class HealthPowerup: MonoBehaviour
 {
     int healthCount;
     public new BoxCollider2D col;
