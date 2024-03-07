@@ -30,25 +30,31 @@ public class Node : MonoBehaviour
 
     }
 
-    private IEnumerator GoToPos(Vector2 start, Vector2 end, float seconds)
+    private IEnumerator GoToPos(Vector2 start, Vector2 end, float seconds, float scaling)
     {
         for (float t = 0; t < 1; t += Time.deltaTime / seconds) 
         {
             transform.position = Vector2.Lerp(start, end, t);
+            if (transform.localScale.x > scaling)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * 0.9995f, transform.localScale.y * 0.9995f, transform.localScale.z * 0.9995f);
+            }
             yield return null;
         }
         renderer.enabled = false;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         Destroy(this.gameObject);
     }
 
-    public void moveHere(Vector2 end, float seconds = 0.5f, string nodeTag = "Resource")
+    public void moveHere(Vector2 end, float seconds = 0.7f, string nodeTag = "Resource")
     {
         gameObject.tag = nodeTag;
+        float scale = 0.75f;
         switch (nodeTag)
         {
             case "Circle":
                 transform.GetChild(0).gameObject.SetActive(true);
+                scale = 0.59f;
                 break;
 
             case "Triangle":
@@ -76,7 +82,7 @@ public class Node : MonoBehaviour
                 break;
         }
 
-        StartCoroutine(GoToPos(transform.position, end, seconds));
+        StartCoroutine(GoToPos(transform.position, end, seconds, scale));
     }
 
 
