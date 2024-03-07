@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 0}
-  healthText: {fileID: 0}
+  healthText: {fileID: 8617857295288449413}
 --- !u!1 &9002817492939397399
 GameObject:
   m_ObjectHideFlags: 0
