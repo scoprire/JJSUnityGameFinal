@@ -1074,17 +1074,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb24d684fbd1a1f4b97c574c087b239f, type: 3}
---- !u!114 &1585322522 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8617857295288449413, guid: ee15f0eb952cdd5489274f30ff6f6fca, type: 3}
-  m_PrefabInstance: {fileID: 333131398}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1816308002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1136,6 @@ MonoBehaviour:
   bricked: 0
   resetBoard: {fileID: 813890425}
   healthUp: {fileID: 0}
-  healthCounter: {fileID: 1585322522}
   bullets:
   - {fileID: 543285133}
   - {fileID: 257041244}
