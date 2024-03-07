@@ -605,8 +605,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 813890424}
   - {fileID: 736267539}
+  - {fileID: 813890424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1042,8 +1042,8 @@ MonoBehaviour:
   - {fileID: 7482667652216324306, guid: 2c675337c34988b47898b550635d7f5e, type: 3}
   tile: {fileID: 5033429822552806161, guid: ebcea738ebf93b24e86e01c16a9516cd, type: 3}
   node: {fileID: 8964298761856114450, guid: 1067c8d212350104f8dc4b40785d8a93, type: 3}
-  xSize: 6
-  ySize: 6
+  xSize: 5
+  ySize: 5
   bricked: 0
   resetBoard: {fileID: 813890425}
   bullets:
