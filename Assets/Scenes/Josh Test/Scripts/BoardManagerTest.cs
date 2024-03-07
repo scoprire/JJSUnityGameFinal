@@ -21,7 +21,7 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsShifting { get; set; } //checks if it is shifting
     public bool IsSwapping { get; set; } //checks if it is swapping
 
-    private float border = 0.3f; //border between sprites
+    private float border = 0.5f; //border between sprites
     private float shiftDelay = 0.15f;
     public bool bricked = false;
 
@@ -31,6 +31,13 @@ public class BoardManagerTest : MonoBehaviour
 
     public Button resetBoard;
     public Button healthUp;
+
+
+    private int[] rBullet;
+    private int cBullet;
+    [SerializeField] private GameObject[] bullets;
+
+    public GameObject[] gResources;
 
     int enemyHealth = 1000;
 
@@ -60,6 +67,9 @@ public class BoardManagerTest : MonoBehaviour
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
+
+        rBullet = new int[5];
+        cBullet = 0;
         
         CreateBoard(offset.x + border, offset.y + border);  
     }
@@ -294,7 +304,7 @@ public class BoardManagerTest : MonoBehaviour
 
             switch (spriteName)
             {
-                case "Circle": //Green Cube: Health Up
+                case "Circle":
                     end = new Vector2(-5, 0);
                     countHealth++;
                     break;
@@ -324,4 +334,32 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
+    private Vector2 ToBullet()
+    {
+        for (int i = cBullet; i < 5; i++) 
+        {
+            Debug.Log(bullets[cBullet].GetComponent<Bullet>().countToShoot);
+            if (cBullet == 4 && rBullet[cBullet] >= bullets[cBullet].GetComponent<Bullet>().countToShoot)
+            {
+                cBullet = 0;
+                rBullet = new int[5];
+                i = 0;
+            }
+            if (rBullet[i] < bullets[cBullet].GetComponent<Bullet>().countToShoot)
+            {
+                rBullet[i]++;
+                cBullet = i;
+                break;
+            }
+        }
+
+        return bullets[cBullet].GetComponent<Transform>().position;
+    }
+
+
+
+    public void BulletShoot()
+    {
+        
+    }
 }
