@@ -75,7 +75,7 @@ public class Node : MonoBehaviour
                 transform.GetChild(4).gameObject.SetActive(false);
                 break;
         }
-        Debug.Log(nodeTag);
+
         StartCoroutine(GoToPos(transform.position, end, seconds));
     }
 

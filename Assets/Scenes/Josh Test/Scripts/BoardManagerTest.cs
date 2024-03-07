@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -29,6 +30,8 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsResetting { get; set; }
 
     public Button resetBoard;
+    public Button healthUp;
+
 
     private int[] rBullet;
     private int cBullet;
@@ -302,7 +305,7 @@ public class BoardManagerTest : MonoBehaviour
             switch (spriteName)
             {
                 case "Circle":
-                    end = new Vector2(0, 5);
+                    end = new Vector2(-5, 0);
                     countHealth++;
                     break;
 
