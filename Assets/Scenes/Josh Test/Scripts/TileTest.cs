@@ -25,7 +25,7 @@ public class TileTest : MonoBehaviour
     private bool matchFound = false;
 
     [SerializeField] private float tileScale = 1f;
-    private float swapTime = 0.1f;
+    private float swapTime = 0.25f;
 
     void Awake()
     {
@@ -198,9 +198,33 @@ public class TileTest : MonoBehaviour
 
         Vector2 start = transform.position;
         Vector2 end = pTile.transform.position;
+        Vector2 mid = Vector2.zero;
+        float xDif = start.x - end.x;
+        float yDif = start.y - end.y;
+        if (xDif != 0)
+        {
+            if (xDif < 0)
+            {
+                mid = new Vector2(end.x + (xDif / 2), end.y);
+            }
+            else
+            {
+                mid = new Vector2(start.x - (xDif / 2), start.y);
+            }
+        }
+        else if (yDif != 0)
+        {
+            if (yDif < 0)
+            {
+                mid = new Vector2(end.x, end.y + (yDif / 2));
+            }
+            else
+            {
+                mid = new Vector2(start.x, start.y - (yDif / 2));
+            }
+        }
 
-
-        for (float t = 0; t < 0.5; t += Time.deltaTime / (swapTime + (0.75f - (t * 1.5f)) )) //moves sprites to the midpoint of both
+        for (float t = 0f; t < 0.5f; t += Time.deltaTime / (swapTime ) ) //moves sprites to the midpoint of both
         {
             pTile.transform.position = Vector2.MoveTowards(end, start, t);
             transform.position = Vector2.MoveTowards(start, end, t);
@@ -214,10 +238,11 @@ public class TileTest : MonoBehaviour
         renderer.sprite = temp;
         //transform.GetChild(0).gameObject.transform.SetParent(pTile.transform, false);
 
-        for (float t = 0.5f; t < 1; t += Time.deltaTime / (swapTime + (1.5f - t*1.5f))) //moves sprites back to their original position with new sprite render
+
+        for (float t = 0f; t < 1f; t += Time.deltaTime / (swapTime )) //moves sprites back to their original position with new sprite render
         {
-            pTile.transform.position = Vector2.MoveTowards(start, end, t);
-            transform.position = Vector2.MoveTowards(end, start, t);
+            pTile.transform.position = Vector2.MoveTowards(mid, end, t);
+            transform.position = Vector2.MoveTowards(mid, start, t);
             yield return null;
         }
     }

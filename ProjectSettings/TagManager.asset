@@ -10,6 +10,11 @@ TagManager:
   - 3
   - 4
   - 5
+  - Circle
+  - Triangle
+  - 9-Sliced
+  - Hexagon Pointed-Top
+  - Hexagon Flat-Top
   layers:
   - Default
   - TransparentFX

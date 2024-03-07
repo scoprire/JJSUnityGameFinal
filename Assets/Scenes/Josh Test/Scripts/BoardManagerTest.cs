@@ -20,7 +20,7 @@ public class BoardManagerTest : MonoBehaviour
     public bool IsShifting { get; set; } //checks if it is shifting
     public bool IsSwapping { get; set; } //checks if it is swapping
 
-    private float border = 0.4f; //border between sprites
+    private float border = 0.5f; //border between sprites
     private float shiftDelay = 0.15f;
     public bool bricked = false;
 
@@ -35,6 +35,19 @@ public class BoardManagerTest : MonoBehaviour
     [SerializeField] private GameObject[] bullets;
 
     public GameObject[] gResources;
+
+    int enemyHealth = 1000;
+
+    int playerHealth = 100;
+    int countHealth = 0;
+
+    int enemyWeapon = 0;
+    int countJam = 0;
+
+    int attackDmg = 10;
+    int countAttack = 0;
+
+
     void Start()
     {
 
@@ -115,41 +128,6 @@ public class BoardManagerTest : MonoBehaviour
                 Sprite newSprite = possibleResources[Random.Range(0, possibleResources.Count)]; //creates a new sprite from possible resources
 
                 newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
-
-                /*
-                switch (newSprite.name)
-                {
-                    case "Circle":
-                        GameObject a = Instantiate(gResources[0], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[0].transform.rotation);
-                        a.transform.parent = newTile.transform;
-                        break;
-
-                    case "Triangle":
-                        GameObject b = Instantiate(gResources[1], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[1].transform.rotation);
-                        b.transform.parent = newTile.transform;
-                        break;
-
-                    case "9-Sliced":
-                        GameObject c = Instantiate(gResources[2], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[2].transform.rotation);
-                        c.transform.parent = newTile.transform;
-                        break;
-
-                    case "Hexagon Pointed-Top":
-                        GameObject d = Instantiate(gResources[3], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[3].transform.rotation);
-                        d.transform.parent = newTile.transform;
-                        break;
-
-                    case "Hexagon Flat-Top":
-                        GameObject e = Instantiate(gResources[4], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[4].transform.rotation);
-                        e.transform.parent = newTile.transform;
-                        break;
-
-                    default:
-                        GameObject f = Instantiate(gResources[0], new Vector3(newTile.transform.position.x, newTile.transform.position.y - 0.15f, -2f), gResources[0].transform.rotation);
-                        f.transform.parent = newTile.transform;
-                        break;
-                }
-                */
 
                 previousLeft[y] = newSprite; //sets current sprite as left
                 previousBelow = newSprite; //sets current sprite as bottom
@@ -319,42 +297,37 @@ public class BoardManagerTest : MonoBehaviour
         {
             GameObject newNode = Instantiate(node, start, node.transform.rotation, transform);
             Vector2 end;
-            float speed;
+            float seconds = Random.Range(0.5f, 0.8f);
 
             switch (spriteName)
             {
                 case "Circle":
-                    end = ToBullet();
-                    speed = Random.Range(0.5f, 0.8f);
+                    end = new Vector2(0, 5);
+                    countHealth++;
                     break;
 
                 case "Triangle":
                     end = new Vector2(0, 5);
-                    speed = Random.Range(0.1f, 0.15f);
                     break;
 
                 case "9-Sliced":
                     end = new Vector2(-5, 5);
-                    speed = Random.Range(0.1f, 0.15f);
                     break;
 
                 case "Hexagon Pointed-Top":
                     end = new Vector2(5, 0);
-                    speed = Random.Range(0.1f, 0.15f);
                     break;
 
                 case "Hexagon Flat-Top":
                     end = new Vector2(-5, 0);
-                    speed = Random.Range(0.1f, 0.15f);
                     break;
 
                 default:
                     end = new Vector2(10, 10);
-                    speed = Random.Range(0.1f, 0.15f);
                     break;
             }
 
-            newNode.GetComponent<Node>().moveHere(end, speed, "" + (cBullet + 1));
+            newNode.GetComponent<Node>().moveHere(end, seconds, spriteName);
         }
     }
 
