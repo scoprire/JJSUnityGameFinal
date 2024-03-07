@@ -14,7 +14,10 @@ public class LevelLoader : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            LoadNextLevel();
+            if(SceneManager.GetActiveScene().buildIndex != 1)
+            {
+                LoadNextLevel();
+            }
         }
     }
 
