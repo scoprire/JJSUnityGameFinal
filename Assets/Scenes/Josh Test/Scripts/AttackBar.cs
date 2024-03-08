@@ -108,6 +108,7 @@ public class AttackBar : MonoBehaviour
 
     private IEnumerator Shake()
     {
+
         for (int i = 0; i < 6; i++)
         {
             if (i % 2 == 0)

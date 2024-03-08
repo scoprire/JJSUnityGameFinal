@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
@@ -29,8 +32,7 @@ public class BoardManagerTest : MonoBehaviour
     bool justChecked = false;
     public bool IsResetting { get; set; }
 
-    public Button resetBoard;
-    public Button healthUp;
+    public TextMeshProUGUI resettingText;
 
     int enemyHealth = 1000;
 
@@ -43,6 +45,7 @@ public class BoardManagerTest : MonoBehaviour
     int attackDmg = 10;
     int countAttack = 0;
 
+    Vector3 startPos;
 
     void Start()
     {
@@ -53,14 +56,15 @@ public class BoardManagerTest : MonoBehaviour
         Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.extents; //could be bounds.size
 
         BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
-
-        resetBoard.gameObject.SetActive(false);
-        resetBoard.onClick.AddListener(ResetBoard);
         
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
         
+        resettingText.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
+
+        startPos = BoardTransform.position;
+
         CreateBoard(offset.x + border, offset.y + border);  
     }
 
@@ -118,7 +122,7 @@ public class BoardManagerTest : MonoBehaviour
                 possibleResources.Remove(previousLeft[y]); //removes any resource to the left
                 possibleResources.Remove(previousBelow); //removes resource right below
 
-                Sprite newSprite = possibleResources[Random.Range(0, possibleResources.Count)]; //creates a new sprite from possible resources
+                Sprite newSprite = possibleResources[UnityEngine.Random.Range(0, possibleResources.Count)]; //creates a new sprite from possible resources
 
                 newTile.GetComponent<SpriteRenderer>().sprite = newSprite; //changes tile to chosen sprite
 
@@ -214,12 +218,13 @@ public class BoardManagerTest : MonoBehaviour
             possibleCharacters.Remove(tiles[x, y - 1].GetComponent<SpriteRenderer>().sprite);//remove tilePossibility under
         }
 
-        return possibleCharacters[Random.Range(0, possibleCharacters.Count)]; //random possible sprite
+        return possibleCharacters[UnityEngine.Random.Range(0, possibleCharacters.Count)]; //random possible sprite
     }
 
     private void CheckForBrick()
     {
         justChecked = true;
+        resettingText.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
@@ -258,15 +263,14 @@ public class BoardManagerTest : MonoBehaviour
                 return;
             }
         }
-
-        resetBoard.gameObject.SetActive(true);
+        StopCoroutine(ResetText());
+        StartCoroutine(ResetText());
         bricked = true;
     }
 
     public void ResetBoard()
     {
         shiftDelay = 0.05f;
-        IsResetting = true;
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
@@ -279,8 +283,55 @@ public class BoardManagerTest : MonoBehaviour
                 tiles[x, y].transform.GetChild(4).gameObject.SetActive(false);
             }
         }
-        resetBoard.gameObject.SetActive(false);
         StartCoroutine(BoardManagerTest.instance.FindNullTiles());
+    }
+
+    private IEnumerator ResetText()
+    {
+        IsResetting = true;
+        Color start = resettingText.faceColor;
+        Color end = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 255);
+
+        for (float t = 0f; t < 1; t += Time.deltaTime)
+        {
+            resettingText.faceColor = Color.Lerp(start, end, t);
+            yield return null;
+        }
+
+        resettingText.faceColor = end;
+
+        ResetBoard();
+
+        while (IsResetting)
+        {
+            for (float t = 0f; t < 1; t += Time.deltaTime)
+            {
+                if (!IsResetting) { break; }
+                resettingText.faceColor = Color.Lerp(end, start, t);
+                yield return null;
+            }
+
+            resettingText.faceColor = start;
+
+            for (float t = 0f; t < 1; t += Time.deltaTime)
+            {
+                if (!IsResetting) { break; }
+                resettingText.faceColor = Color.Lerp(start, end, t);
+                yield return null;
+            }
+
+            resettingText.faceColor = end;
+
+            
+        }
+
+        resettingText.faceColor = end;
+        for (float t = 0f; t < 1; t += Time.deltaTime)
+        {
+            resettingText.faceColor = Color.Lerp(end, start, t);
+            yield return null;
+        }
+        resettingText.faceColor = start;
     }
 
 
@@ -290,7 +341,7 @@ public class BoardManagerTest : MonoBehaviour
         {
             GameObject newNode = Instantiate(node, start, node.transform.rotation, transform);
             Vector2 end;
-            float seconds = Random.Range(0.5f, 0.8f);
+            float seconds = UnityEngine.Random.Range(0.5f, 0.8f);
 
             switch (spriteName)
             {
