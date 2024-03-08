@@ -59,7 +59,7 @@ public class AttackBar : MonoBehaviour
     {
         if (!stunned)
         {
-            if (currentCount == countToAtk)
+            if (currentCount > countToAtk)
             {
                 currentCount = 0;
                 return;
