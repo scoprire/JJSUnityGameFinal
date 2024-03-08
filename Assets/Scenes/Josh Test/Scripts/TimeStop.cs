@@ -23,7 +23,7 @@ public class TimeStop : MonoBehaviour
 
     bool spawning = false;
 
-    int donutsNeeded = 4;
+    int donutsNeeded = 100;
     int stuns = 3;
     // Start is called before the first frame update
     void Start()
