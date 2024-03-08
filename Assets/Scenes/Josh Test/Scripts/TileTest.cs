@@ -290,10 +290,22 @@ public class TileTest : MonoBehaviour
 
         if (matchingTiles.Count >= 2) //checks how many matching tiles
         {
+            int j = 1;
+            if (matchingTiles.Count == 3)
+            {
+                j = 2;
+            }
+            if (matchingTiles.Count >= 4)
+            {
+                j = 3;
+            }
 
             for (int i = 0; i < matchingTiles.Count; i++) 
             {
-                BoardManagerTest.instance.NodeMake(matchingTiles[i].GetComponent<Transform>().position, matchingTiles[i].GetComponent<SpriteRenderer>().sprite.name);
+                for (int t = 0; t < j; t++)
+                {
+                    BoardManagerTest.instance.NodeMake(matchingTiles[i].GetComponent<Transform>().position, matchingTiles[i].GetComponent<SpriteRenderer>().sprite.name);
+                }
                 matchingTiles[i].transform.GetChild(0).gameObject.SetActive(false);
                 matchingTiles[i].transform.GetChild(1).gameObject.SetActive(false);
                 matchingTiles[i].transform.GetChild(2).gameObject.SetActive(false);
