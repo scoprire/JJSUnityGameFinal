@@ -8,21 +8,20 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class HealthPowerup : MonoBehaviour
+public class AttackMinion : MonoBehaviour
 {
-    int healthCount;
+    int ammoCount;
     new BoxCollider2D col;
-    public GameObject medkits;
+    public GameObject ammo;
 
-    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI ammoText;
 
-    float atkBarX = 8.4f;
-    float atkBatheight = 0;
+    float enemies = 5f;
 
     bool spawning = false;
 
-    int healthNeeded = 4;
-    int boxes = 3;
+    int ammoNeeded = 4;
+    int stuns = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,22 +31,22 @@ public class HealthPowerup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthText.text = healthCount + System.Environment.NewLine + "Heal Me" + System.Environment.NewLine + "Cost: " + healthNeeded;
+        ammoText.text = ammoCount + System.Environment.NewLine + "Attack Minion" + System.Environment.NewLine + "Cost: " + ammoNeeded;
     }
 
     private void OnMouseDown()
     {
-        if (healthCount >= healthNeeded)
+        if (ammoCount >= ammoNeeded)
         {
-            healthCount -= healthNeeded;
-            for (int i = 0; i < boxes; i++)
+            ammoCount -= ammoNeeded;
+            for (int i = 0; i < stuns; i++)
             {
-                GameObject newNode = Instantiate(medkits, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), medkits.transform.rotation, transform);
-                Vector2 end = new Vector2(atkBarX, Random.Range(-2f, 1.5f));
+                GameObject newNode = Instantiate(ammo, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), ammo.transform.rotation, transform);
+                Vector2 end = new Vector2(Random.Range(-7f, 7f), enemies);
                 float seconds = Random.Range(0.5f, 0.8f);
 
                 newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
-                healthCount--;
+                ammoCount--;
             }
         }
 
@@ -57,7 +56,7 @@ public class HealthPowerup : MonoBehaviour
     {
         if (other.gameObject.tag == this.gameObject.tag && !spawning)
         {
-            healthCount++;
+            ammoCount++;
         }
     }
 }

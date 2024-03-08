@@ -347,24 +347,32 @@ public class BoardManagerTest : MonoBehaviour
             switch (spriteName)
             {
                 case "Circle": //Green Cube: Health Up
-                    end = new Vector2(-5, 1);
+                    end = new Vector2(5, -1.5f);
                     countHealth++;
                     break;
 
-                case "Triangle":
-                    end = new Vector2(0, 5);
+                case "Triangle": //Donut: Time Stop
+                    int choose = UnityEngine.Random.Range(0, 10);
+                    if (choose > 5)
+                    {
+                        end = new Vector2(3.25f, -2.05f);
+                    }
+                    else 
+                    {
+                        end = new Vector2(-3.25f, -2.05f);
+                    }  
                     break;
 
-                case "9-Sliced":
-                    end = new Vector2(-5, 5);
+                case "9-Sliced": //Silver Sphere: MinionAttack
+                    end = new Vector2(5, 1);
                     break;
 
                 case "Hexagon Pointed-Top": //BlueDode: AttackStall
                     end = new Vector2(-5, -1.5f);
                     break;
 
-                case "Hexagon Flat-Top":
-                    end = new Vector2(-5, 0);
+                case "Hexagon Flat-Top": //Brown Dode: RobotAttack
+                    end = new Vector2(-5, 1);
                     break;
 
                 default:

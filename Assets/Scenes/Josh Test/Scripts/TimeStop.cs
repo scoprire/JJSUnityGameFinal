@@ -8,21 +8,23 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class HealthPowerup : MonoBehaviour
+public class TimeStop : MonoBehaviour
 {
-    int healthCount;
+    int donutsCount;
     new BoxCollider2D col;
-    public GameObject medkits;
+    public GameObject donuts;
 
-    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI donutsLText;
+    public TextMeshProUGUI donutsRText;
+    public TextMeshProUGUI donutsMText;
 
-    float atkBarX = 8.4f;
+    float atkBarX = -8.4f;
     float atkBatheight = 0;
 
     bool spawning = false;
 
-    int healthNeeded = 4;
-    int boxes = 3;
+    int donutsNeeded = 4;
+    int stuns = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,22 +34,24 @@ public class HealthPowerup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthText.text = healthCount + System.Environment.NewLine + "Heal Me" + System.Environment.NewLine + "Cost: " + healthNeeded;
+        donutsLText.text = donutsCount +  " Donuts";
+        donutsRText.text = donutsCount +  " Donuts";
+        donutsMText.text =  "Donuts Needed: " + donutsNeeded;
     }
 
     private void OnMouseDown()
     {
-        if (healthCount >= healthNeeded)
+        if (donutsCount >= donutsNeeded)
         {
-            healthCount -= healthNeeded;
-            for (int i = 0; i < boxes; i++)
+            donutsCount -= donutsNeeded;
+            for (int i = 0; i < stuns; i++)
             {
-                GameObject newNode = Instantiate(medkits, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), medkits.transform.rotation, transform);
+                GameObject newNode = Instantiate(donuts, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), donuts.transform.rotation, transform);
                 Vector2 end = new Vector2(atkBarX, Random.Range(-2f, 1.5f));
                 float seconds = Random.Range(0.5f, 0.8f);
 
                 newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
-                healthCount--;
+                donutsCount--;
             }
         }
 
@@ -57,7 +61,7 @@ public class HealthPowerup : MonoBehaviour
     {
         if (other.gameObject.tag == this.gameObject.tag && !spawning)
         {
-            healthCount++;
+            donutsCount++;
         }
     }
 }
