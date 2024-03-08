@@ -300,6 +300,7 @@ public class BoardManagerTest : MonoBehaviour
 
         resettingText.faceColor = end;
 
+        yield return new WaitForSeconds(1);
         ResetBoard();
 
         while (IsResetting)
