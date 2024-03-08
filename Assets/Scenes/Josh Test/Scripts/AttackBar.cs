@@ -62,7 +62,6 @@ public class AttackBar : MonoBehaviour
             if (currentCount > countToAtk)
             {
                 currentCount = 0;
-                return;
             }
 
             Color barColor;
