@@ -295,7 +295,7 @@ public class BoardManagerTest : MonoBehaviour
             switch (spriteName)
             {
                 case "Circle": //Green Cube: Health Up
-                    end = new Vector2(-5, 0);
+                    end = new Vector2(-5, 1);
                     countHealth++;
                     break;
 
@@ -307,8 +307,8 @@ public class BoardManagerTest : MonoBehaviour
                     end = new Vector2(-5, 5);
                     break;
 
-                case "Hexagon Pointed-Top":
-                    end = new Vector2(5, 0);
+                case "Hexagon Pointed-Top": //BlueDode: AttackStall
+                    end = new Vector2(-5, -1.5f);
                     break;
 
                 case "Hexagon Flat-Top":
