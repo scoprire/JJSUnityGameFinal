@@ -93,6 +93,7 @@ public class BoardManagerTest : MonoBehaviour
             if (!justChecked)
             {
                 CheckForBrick();
+                
                 if (bricked)
                 {
                     Debug.Log(bricked);
@@ -102,6 +103,7 @@ public class BoardManagerTest : MonoBehaviour
             if (IsResetting)
             {
                 Debug.Log("Done Resetting");
+                shiftDelay = 0.15f;
                 IsResetting = false;
             }
         }
@@ -351,7 +353,7 @@ public class BoardManagerTest : MonoBehaviour
             yield return null;
         }
         resettingText.faceColor = start;
-        shiftDelay = 0.15f;
+        
     }
 
 
