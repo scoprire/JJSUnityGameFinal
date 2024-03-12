@@ -26,7 +26,9 @@ public class BoardManagerTest : MonoBehaviour
 
     private float border = 0.3f; //border between sprites
     private float shiftDelay = 0.15f;
+
     public bool bricked = false;
+    //public GameObject tileCheck;
 
     bool fRunning = false;
     bool justChecked = false;
@@ -124,7 +126,10 @@ public class BoardManagerTest : MonoBehaviour
             for (int y = 0; y < ySize; y++)
             {
                 GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
+
                 GameObject brickTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
+                //GameObject brickTile = Instantiate(tileCheck, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
+
                 tiles[x, y] = newTile; //sets Tile to it's respective array location
                 brickBoard[x, y] = brickTile;
 
@@ -189,7 +194,6 @@ public class BoardManagerTest : MonoBehaviour
             SpriteRenderer render = tiles[x, y].GetComponent<SpriteRenderer>();
             if (render.sprite == null)
             {
-                //NodeMake(new Vector2(tiles[x, y].GetComponent<Transform>().position.x, tiles[x, y].GetComponent<Transform>().position.y));
                 nullCount++; //counts how many missing tiles
             }
             renders.Add(render); //adds tiles above selected tile inclusive into list

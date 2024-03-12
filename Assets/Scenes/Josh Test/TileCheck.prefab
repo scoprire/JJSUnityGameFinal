@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5311854928847621383}
   - component: {fileID: 269624509853920237}
   - component: {fileID: 6786513121473876365}
-  - component: {fileID: 8111309591824552905}
   - component: {fileID: -5971702466854764104}
+  - component: {fileID: 604948881100171456}
   m_Layer: 0
   m_Name: TileCheck
   m_TagString: Untagged
@@ -132,22 +132,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8111309591824552905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5033429822552806161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87369cf217758854da9f271fa56d09a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transform: {fileID: 0}
-  rb: {fileID: 0}
-  startColor: {r: 0, g: 0, b: 0, a: 0}
-  tileScale: 0.85
 --- !u!50 &-5971702466854764104
 Rigidbody2D:
   serializedVersion: 4
@@ -175,3 +159,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &604948881100171456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033429822552806161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39752186520c104591f81f4cfdd84c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transform: {fileID: 0}
+  rb: {fileID: 0}
+  startColor: {r: 0, g: 0, b: 0, a: 0}
+  tileScale: 0.85
