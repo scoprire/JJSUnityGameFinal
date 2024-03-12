@@ -21,7 +21,9 @@ public class AttackRobot : MonoBehaviour
     bool spawning = false;
 
     int ammoNeeded = 4;
-    int stuns = 3;
+    int bullets = 3;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,7 @@ public class AttackRobot : MonoBehaviour
         if (ammoCount >= ammoNeeded)
         {
             ammoCount -= ammoNeeded;
-            for (int i = 0; i < stuns; i++)
+            for (int i = 0; i < bullets; i++)
             {
                 GameObject newNode = Instantiate(ammo, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), ammo.transform.rotation, transform);
                 Vector2 end = new Vector2(Random.Range(-7f, 7f), enemies);
@@ -48,6 +50,8 @@ public class AttackRobot : MonoBehaviour
                 newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
                 ammoCount--;
             }
+
+            BoardManagerTest.instance.EnemyTakeDmg();
         }
 
     }

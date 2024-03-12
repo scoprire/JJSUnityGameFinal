@@ -28,7 +28,7 @@ public class BoardManagerTest : MonoBehaviour
     private float shiftDelay = 0.15f;
 
     public bool bricked = false;
-    //public GameObject tileCheck;
+    public GameObject tileCheck;
 
     bool fRunning = false;
     bool justChecked = false;
@@ -36,21 +36,17 @@ public class BoardManagerTest : MonoBehaviour
 
     public TextMeshProUGUI resettingText;
 
-    int enemyHealth = 1000;
+    int enemyMaxHealth = 1500;
+    int enemyHealth;
+    public Slider enemyHealthBar;
+    int enemyDamage = 35;
 
-    int playerHealth = 100;
-    int countHealth = 0;
+    public int currentPlayerHealth = 100;
+    int playerDamage = 100;
 
-    int enemyWeapon = 0;
-    int countJam = 0;
-
-    int attackDmg = 10;
-    int countAttack = 0;
-
-    Vector3 startPos;
-
-    float timer;
-    int gameTimer;
+    float timer = 0;
+    int gameTimer = 0;
+    public TextMeshProUGUI gameTimerText;
 
     void Start()
     {
@@ -60,18 +56,16 @@ public class BoardManagerTest : MonoBehaviour
 
         Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.extents; //could be bounds.size
 
-        BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
+        //BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
 
-        gameTimer = 0;
-        timer = 0;
+        enemyHealthBar.maxValue = enemyMaxHealth;
+        enemyHealth = enemyMaxHealth;
 
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
         
         resettingText.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
-
-        startPos = BoardTransform.position;
 
         CreateBoard(offset.x + border, offset.y + border);  
     }
@@ -84,14 +78,21 @@ public class BoardManagerTest : MonoBehaviour
         {
             timer -= 1f;
             gameTimer++;
+            if (gameTimer % 10 == 0 && gameTimer != 0)
+            {
+                
+            }
         }
+        gameTimerText.text = "Timer: " + gameTimer;
+        
+
+        enemyHealthBar.value = enemyHealth;
 
         if (!IsShifting && !fRunning && !IsSwapping)
         {
             if (!justChecked)
             {
                 CheckForBrick();
-                Debug.Log("checking");
                 if (bricked)
                 {
                     Debug.Log(bricked);
@@ -101,7 +102,6 @@ public class BoardManagerTest : MonoBehaviour
             if (IsResetting)
             {
                 Debug.Log("Done Resetting");
-                shiftDelay = 0.15f;
                 IsResetting = false;
             }
         }
@@ -125,10 +125,9 @@ public class BoardManagerTest : MonoBehaviour
         {
             for (int y = 0; y < ySize; y++)
             {
-                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
+                GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 0.25f, startY + (yOffset * y), 0), tile.transform.rotation); //creates a new tile at a location in game
 
-                GameObject brickTile = Instantiate(tile, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
-                //GameObject brickTile = Instantiate(tileCheck, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
+                GameObject brickTile = Instantiate(tileCheck, new Vector3(startX + (xOffset * x) - 20f, startY + (yOffset * y) - 20f, 0), tile.transform.rotation);
 
                 tiles[x, y] = newTile; //sets Tile to it's respective array location
                 brickBoard[x, y] = brickTile;
@@ -248,7 +247,7 @@ public class BoardManagerTest : MonoBehaviour
         {
             for (int y = 0; y < ySize; y++)
             {
-                brickBoard[x, y].GetComponent<TileTest>().GetComponent<SpriteRenderer>().sprite = tiles[x, y].GetComponent<SpriteRenderer>().sprite;
+                brickBoard[x, y].GetComponent<TileCheck>().GetComponent<SpriteRenderer>().sprite = tiles[x, y].GetComponent<SpriteRenderer>().sprite;
             }
         }
         
@@ -256,18 +255,18 @@ public class BoardManagerTest : MonoBehaviour
         {
             for (int y = 0; y < ySize - 1; y++)
             {
-                if (brickBoard[x, y].GetComponent<TileTest>().TestBoard(brickBoard[x, y + 1].GetComponent<TileTest>())) //Checks above swap
+                if (brickBoard[x, y].GetComponent<TileCheck>().TestBoard(brickBoard[x, y + 1].GetComponent<TileCheck>())) //Checks above swap
                 {
                     bricked = false;
                     return;
                 }
-                if (brickBoard[x, y].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, y].GetComponent<TileTest>())) //Checks right swap
+                if (brickBoard[x, y].GetComponent<TileCheck>().TestBoard(brickBoard[x + 1, y].GetComponent<TileCheck>())) //Checks right swap
                 {
                     bricked = false;
                     return;
                 }
             }
-            if (brickBoard[x, ySize - 1].GetComponent<TileTest>().TestBoard(brickBoard[x + 1, ySize - 1].GetComponent<TileTest>())) //checks horizontal swap whole top row
+            if (brickBoard[x, ySize - 1].GetComponent<TileCheck>().TestBoard(brickBoard[x + 1, ySize - 1].GetComponent<TileCheck>())) //checks horizontal swap whole top row
             {
                 bricked = false;
                 return;
@@ -276,7 +275,7 @@ public class BoardManagerTest : MonoBehaviour
 
         for (int y = 0; y < ySize - 1; y++)
         {
-            if (brickBoard[xSize - 1, y].GetComponent<TileTest>().TestBoard(brickBoard[xSize - 1, y + 1].GetComponent<TileTest>())) //Checks above swap in last coloumn
+            if (brickBoard[xSize - 1, y].GetComponent<TileCheck>().TestBoard(brickBoard[xSize - 1, y + 1].GetComponent<TileCheck>())) //Checks above swap in last coloumn
             {
                 bricked = false;
                 return;
@@ -319,7 +318,7 @@ public class BoardManagerTest : MonoBehaviour
 
         resettingText.faceColor = end;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         ResetBoard();
 
         while (IsResetting)
@@ -352,6 +351,7 @@ public class BoardManagerTest : MonoBehaviour
             yield return null;
         }
         resettingText.faceColor = start;
+        shiftDelay = 0.15f;
     }
 
 
@@ -367,7 +367,6 @@ public class BoardManagerTest : MonoBehaviour
             {
                 case "Circle": //Green Cube: Health Up
                     end = new Vector2(5, -1.5f);
-                    countHealth++;
                     break;
 
                 case "Triangle": //Donut: Time Stop
@@ -403,4 +402,13 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
+    public void EnemyTakeDmg()
+    {
+        enemyHealth -= playerDamage;
+    }
+
+    public void PlayerTakeDmg()
+    {
+        StartCoroutine(transform.GetChild(2).gameObject.GetComponent<PlayerHealthBar>().TakeDamage(enemyDamage));
+    }
 }

@@ -28,14 +28,17 @@ public class Mission : MonoBehaviour
         goalCount = 0;
         count = 0;
         child = 6;
-        mission = "Circle";
         onMission = false;
+        for (int i = 0; i < 10; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (goalCount != 0 || goalCount >= count)
+        if (goalCount != 0 && goalCount >= count)
         {
             MissionDone();
         }
@@ -67,7 +70,9 @@ public class Mission : MonoBehaviour
                 child = 4;
                 break;
 
-            default: 
+            default:
+                missionBrief.text = "";
+                missionCount.text = "";
                 break;
         }
 

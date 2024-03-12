@@ -7,9 +7,11 @@ public class PlayerHealthBar : MonoBehaviour
 {
     new Transform transform;
     Slider healthBar;
-    [SerializeField] int healthBarValue = 50;
+    int healthBarValue;
     int playerMaxHealth = 100;
-    Color flashColor;
+    Color healthBarStart;
+    Color flashColorHeal;
+    Color flashColorDmg;
     bool isFlashing;
     // Start is called before the first frame update
     void Start()
@@ -17,14 +19,19 @@ public class PlayerHealthBar : MonoBehaviour
         transform = GetComponent<Transform>();
         healthBar = GetComponent<Slider>();
         healthBar.maxValue = playerMaxHealth;
-        flashColor = transform.GetChild(1).GetComponent<SpriteRenderer>().color;
+        healthBarValue = playerMaxHealth;
+        healthBarStart = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        flashColorHeal = transform.GetChild(1).GetComponent<SpriteRenderer>().color;
+        flashColorDmg = Color.red;
+        flashColorDmg = new Color(flashColorDmg.r, flashColorDmg.g, flashColorDmg.b, 0f);
         isFlashing = false;
+        StartCoroutine(FlashHealth());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        BoardManagerTest.instance.currentPlayerHealth = healthBarValue;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -49,27 +56,61 @@ public class PlayerHealthBar : MonoBehaviour
     
     private IEnumerator FlashHealth()
     {
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = flashColorHeal;
         isFlashing = true;
-        Color end = new Color(flashColor.r, flashColor.g, flashColor.b, 1f);
+        Color end = new Color(flashColorHeal.r, flashColorHeal.g, flashColorHeal.b, 1f);
 
-        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.5f)
+        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.25f)
         {
-            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(flashColor, end, t);
+            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(flashColorHeal, end, t);
             yield return null;
         }
 
         transform.GetChild(1).GetComponent<SpriteRenderer>().color = end;
         healthBar.value = healthBarValue;
 
-        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.5f)
+        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.25f)
         {
-            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(end, flashColor, t);
+            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(end, flashColorHeal, t);
             yield return null;
         }
 
-        transform.GetChild(1).GetComponent<SpriteRenderer>().color = flashColor;
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = flashColorHeal;
 
         isFlashing = false;
     }
-    
+
+    public IEnumerator TakeDamage(int damage)
+    {
+        Debug.Log("Recieved function");
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = flashColorDmg;
+        isFlashing = true;
+        Color endshow = new Color(flashColorDmg.r, flashColorDmg.g, flashColorDmg.b, 1f);
+        Color endhide = new Color(healthBarStart.r, healthBarStart.g, healthBarStart.b, 0f);
+
+        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.25f)
+        {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(flashColorDmg, endshow, t);
+            transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.Lerp(healthBarStart, endhide, t);
+            yield return null;
+        }
+
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = endshow;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = endhide;
+        healthBarValue -= damage;
+        healthBar.value = healthBarValue;
+
+        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.25f)
+        {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.Lerp(endshow, flashColorDmg, t);
+            transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.Lerp(endhide, healthBarStart, t);
+            yield return null;
+        }
+
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = flashColorDmg;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = healthBarStart;
+
+        isFlashing = false;
+    }
+
 }

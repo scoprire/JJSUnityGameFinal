@@ -15,6 +15,8 @@ public class AttackBar : MonoBehaviour
 
     bool stunned;
     int stunnedTimer = -1;
+
+    bool attacking = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -62,6 +64,8 @@ public class AttackBar : MonoBehaviour
             if (currentCount > countToAtk)
             {
                 currentCount = 0;
+                //attack animation
+                attacking = true;
             }
 
             Color barColor;
@@ -103,6 +107,11 @@ public class AttackBar : MonoBehaviour
                 transform.GetChild(i).gameObject.GetComponent<Renderer>().material.color = barColor;
                 transform.GetChild(i).gameObject.SetActive(false);
             }
+
+            if (attacking)
+            {
+                StartCoroutine(AttackNow());
+            }
         }
     }
 
@@ -133,9 +142,29 @@ public class AttackBar : MonoBehaviour
         {
             transform.GetChild(i).gameObject.GetComponent<Renderer>().material.color = Color.gray;
         }
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(10f); //animation time needed
+
         stunned = false;
         stunnedTimer = 20;
+    }
+
+    private IEnumerator AttackNow()
+    {
+        currentCount = 0;
+        stunned = true;
+
+        for (int i = 0; i < 24; i++)
+        {
+            transform.GetChild(i).gameObject.GetComponent<Renderer>().material.color = Color.gray;
+        }
+
+        yield return new WaitForSeconds(5f); //change to animation timing
+
+        BoardManagerTest.instance.PlayerTakeDmg();
+
+        stunned = false;
+        stunnedTimer = 15;
+        attacking = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
