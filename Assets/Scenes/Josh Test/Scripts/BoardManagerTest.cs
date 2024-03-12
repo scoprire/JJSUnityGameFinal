@@ -47,6 +47,9 @@ public class BoardManagerTest : MonoBehaviour
 
     Vector3 startPos;
 
+    float timer;
+    int gameTimer;
+
     void Start()
     {
 
@@ -56,7 +59,10 @@ public class BoardManagerTest : MonoBehaviour
         Vector2 offset = tile.GetComponent<SpriteRenderer>().bounds.extents; //could be bounds.size
 
         BoardTransform.position = new Vector3(-((xSize - 1f) * (offset.x + border) * 0.5f), BoardTransform.position.y, 0f); //position board so it is centered based on offset
-        
+
+        gameTimer = 0;
+        timer = 0;
+
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
@@ -71,6 +77,13 @@ public class BoardManagerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        if (timer >=  1f) 
+        {
+            timer -= 1f;
+            gameTimer++;
+        }
+
         if (!IsShifting && !fRunning && !IsSwapping)
         {
             if (!justChecked)
@@ -90,6 +103,8 @@ public class BoardManagerTest : MonoBehaviour
                 IsResetting = false;
             }
         }
+
+        
     }
 
     private void CreateBoard(float xOffset, float yOffset)

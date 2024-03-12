@@ -17,7 +17,6 @@ public class HealthPowerup : MonoBehaviour
     public TextMeshProUGUI healthText;
 
     float atkBarX = 8.4f;
-    float atkBatheight = 0;
 
     bool spawning = false;
 
