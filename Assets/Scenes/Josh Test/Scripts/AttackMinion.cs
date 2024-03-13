@@ -31,7 +31,7 @@ public class AttackMinion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ammoText.text = ammoCount + System.Environment.NewLine + "Attack Minion" + System.Environment.NewLine + "Cost: " + ammoNeeded;
+        ammoText.text = ammoCount + System.Environment.NewLine + "Mission Time" + System.Environment.NewLine + "Cost: " + ammoNeeded;
     }
 
     private void OnMouseDown()
@@ -42,7 +42,7 @@ public class AttackMinion : MonoBehaviour
             for (int i = 0; i < stuns; i++)
             {
                 GameObject newNode = Instantiate(ammo, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), ammo.transform.rotation, transform);
-                Vector2 end = new Vector2(Random.Range(-7f, 7f), enemies);
+                Vector2 end = new Vector2(8.4f, 7.05f);
                 float seconds = Random.Range(0.5f, 0.8f);
 
                 newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);

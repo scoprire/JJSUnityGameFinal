@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class BoardManagerTest : MonoBehaviour
 {
@@ -48,6 +51,10 @@ public class BoardManagerTest : MonoBehaviour
     int gameTimer = 0;
     public TextMeshProUGUI gameTimerText;
 
+    int missionGoalCount;
+    string mission;
+    public bool runningMission;
+
     void Start()
     {
 
@@ -64,6 +71,7 @@ public class BoardManagerTest : MonoBehaviour
         IsSwapping = false; //set to false initially
         IsShifting = false;
         IsResetting = false;
+        runningMission = false;
         
         resettingText.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
 
@@ -80,7 +88,7 @@ public class BoardManagerTest : MonoBehaviour
             gameTimer++;
             if (gameTimer % 10 == 0 && gameTimer != 0)
             {
-                
+                MissionMake();
             }
         }
         gameTimerText.text = "Timer: " + gameTimer;
@@ -400,6 +408,10 @@ public class BoardManagerTest : MonoBehaviour
                     break;
             }
 
+            if (runningMission && mission == spriteName)
+            {
+                end = new Vector2(8.4f, 7.05f);
+            }
             newNode.GetComponent<Node>().moveHere(end, seconds, spriteName);
         }
     }
@@ -412,5 +424,86 @@ public class BoardManagerTest : MonoBehaviour
     public void PlayerTakeDmg()
     {
         StartCoroutine(transform.GetChild(2).gameObject.GetComponent<PlayerHealthBar>().TakeDamage(enemyDamage));
+    }
+
+    void MissionMake()
+    {
+        if (!transform.GetChild(3).gameObject.GetComponent<Mission>().onMission)
+        {
+            missionGoalCount = 10 + (gameTimer / 30) * 5;
+            int choose = UnityEngine.Random.Range(1, 4);
+            switch (choose)
+            {
+                case 1: //Green Cube: Health Up
+                    mission = "Circle";
+                    break;
+
+                case 2: //Donut: Time Stop
+                    mission = "Triangle";
+                    break;
+
+                case 3: //Brown Dode
+                    mission = "Hexagon Flat-Top";
+                    break;
+
+                case 4: //BlueDode: AttackStall
+                    mission = "Hexagon Pointed-Top";
+                    break;
+
+                default:
+                    return;
+            }
+
+            transform.GetChild(3).gameObject.GetComponent<Mission>().MissionSet(mission, missionGoalCount);
+            runningMission = true;
+        }
+    }
+
+    public void MissionSucceeded()
+    {
+        for (int i = 0; i < missionGoalCount * 2; i++)
+        {
+            GameObject newNode = Instantiate(node, new Vector2(8.4f, 7.05f), node.transform.rotation, transform);
+            Vector2 end;
+            float seconds = UnityEngine.Random.Range(0.1f, 3f);
+            switch (mission)
+            {
+                case "Circle": //Green Cube: Health Up
+                    end = new Vector2(5, -1.5f);
+                    break;
+
+                case "Triangle": //Donut: Time Stop
+                    int choose = UnityEngine.Random.Range(0, 10);
+                    if (choose > 5)
+                    {
+                        end = new Vector2(3.25f, -2.05f);
+                    }
+                    else
+                    {
+                        end = new Vector2(-3.25f, -2.05f);
+                    }
+                    break;
+
+                case "9-Sliced": //Silver Sphere: MinionAttack
+                    end = new Vector2(5, 1);
+                    break;
+
+                case "Hexagon Pointed-Top": //BlueDode: AttackStall
+                    end = new Vector2(-5, -1.5f);
+                    break;
+
+                case "Hexagon Flat-Top": //Brown Dode: RobotAttack
+                    end = new Vector2(-5, 1);
+                    break;
+
+                default:
+                    end = new Vector2(10, 10);
+                    break;
+            }
+
+            newNode.GetComponent<Node>().moveHere(end, seconds, mission);
+        }
+        runningMission = false;
+        mission = "";
     }
 }

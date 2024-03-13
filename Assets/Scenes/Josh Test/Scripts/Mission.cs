@@ -9,16 +9,18 @@ public class Mission : MonoBehaviour
 {
     public TextMeshProUGUI missionCount;
     public TextMeshProUGUI missionBrief;
+    public TextMeshProUGUI missionTimerText;
 
     new BoxCollider2D col;
     new Transform transform;
 
-    string mission;
+    public string mission;
     int goalCount;
     int count;
     int child;
-
-    bool onMission;
+    float timer;
+    int missionTimer;
+    public bool onMission;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,10 @@ public class Mission : MonoBehaviour
         count = 0;
         child = 6;
         onMission = false;
+        timer = 0;
+        missionTimer = 0;
+        missionTimerText.enabled = false;
+
         for (int i = 0; i < 10; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
@@ -38,9 +44,27 @@ public class Mission : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (goalCount != 0 && goalCount >= count)
+        timer += Time.deltaTime;
+        if (timer >= 1f)
         {
-            MissionDone();
+            timer -= 1f;
+            missionTimer--;
+            if (missionTimer < 0 && onMission)
+            {
+                StartCoroutine(MissionFail());
+            }
+            if (onMission && missionTimer >= 0)
+            {
+                missionTimerText.enabled = true;
+                missionTimerText.text = "" + missionTimer;
+            }
+        }
+
+        if (count >= goalCount && goalCount != 0)
+        {
+            goalCount = 0;
+            count = 0;
+            StartCoroutine(MissionSuccess());
         }
 
         switch (mission)
@@ -78,7 +102,6 @@ public class Mission : MonoBehaviour
 
         if (onMission)
         {
-            gameObject.tag = mission;
             missionCount.text = (goalCount - count) + " Needed";
             transform.GetChild(0).transform.GetChild(child).gameObject.SetActive(true);
         }
@@ -90,23 +113,65 @@ public class Mission : MonoBehaviour
     {
         mission = missionName;
         goalCount = missionGoal;
+        missionTimer = 45;
+        for (int i = 0; i < 10; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
         onMission = true;
     }
 
     private void MissionDone()
     {
         onMission = false;
+        missionTimerText.enabled = false;
         transform.GetChild(0).transform.GetChild(child).gameObject.SetActive(false);
         mission = "";
         missionBrief.text = "";
         missionCount.text = "";
+        goalCount = 0;
+        count = 0;
+        child = 6;
+        timer = 0;
+        missionTimer = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator MissionFail()
+    {
+        mission = "";
+        missionBrief.text = "FAILED, Resources Consumed";
+        missionCount.text = "FAILED";
+        BoardManagerTest.instance.runningMission = false;
+        yield return new WaitForSeconds(5f);
+        MissionDone();
+    }
+
+    private IEnumerator MissionSuccess()
+    {
+        mission = "";
+        missionBrief.text = "Success, Resources Multiplied";
+        missionCount.text = "Success";
+        BoardManagerTest.instance.MissionSucceeded();
+        missionTimer += 6;
+        yield return new WaitForSeconds(5f);
+        MissionDone();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == this.gameObject.tag)
+        if (other.gameObject.tag == mission)
         {
             count++;
+        }
+
+        if (other.gameObject.tag == this.gameObject.tag)
+        {
+            missionTimer += 2;
+            missionTimerText.text = "" + missionTimer;
         }
     }
 }
