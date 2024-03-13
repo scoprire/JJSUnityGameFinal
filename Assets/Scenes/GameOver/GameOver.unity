@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!95 &15035541 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3240624198723940262, guid: 357c8bb875457400094838edec9f86d7, type: 3}
+  m_PrefabInstance: {fileID: 310105929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &188970911
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a69f15e7bfe54042acf4e88638852c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transition: {fileID: 0}
+  transition: {fileID: 15035541}
   transitionTime: 1
   GameOverText: {fileID: 2107653156}
 --- !u!1 &1765737405
@@ -1004,8 +1009,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 1448009205}
+        m_TargetAssemblyTypeName: GameOverMenu, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -1137,7 +1142,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1448009205}
         m_TargetAssemblyTypeName: GameOverMenu, Assembly-CSharp
         m_MethodName: LoadStartLevel
         m_Mode: 1

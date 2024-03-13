@@ -573,6 +573,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6531161832415204128, guid: 357c8bb875457400094838edec9f86d7, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4866362173314596538, guid: 357c8bb875457400094838edec9f86d7, type: 3}
     m_RemovedGameObjects: []
@@ -1399,6 +1403,7 @@ GameObject:
   - component: {fileID: 793084480}
   - component: {fileID: 793084479}
   - component: {fileID: 793084478}
+  - component: {fileID: 793084482}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1494,6 +1499,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &793084482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793084477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0130242d46f4fc99dba26c59625136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 619078788}
+  transitionTime: 1
 --- !u!1 &794234743
 GameObject:
   m_ObjectHideFlags: 0

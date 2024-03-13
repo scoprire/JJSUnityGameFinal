@@ -56,9 +56,6 @@ public class BoardManagerTest : MonoBehaviour
 
     void Start()
     {
-        PlayerHealth.finalPlayerHealth = currentPlayerHealth;
-        PlayerHealth.finalEnemyHealth = enemyHealth;
-
         instance = GetComponent<BoardManagerTest>();
         BoardTransform = GetComponent<Transform>();
 
@@ -68,6 +65,9 @@ public class BoardManagerTest : MonoBehaviour
 
         enemyHealthBar.maxValue = enemyMaxHealth;
         enemyHealth = enemyMaxHealth;
+
+        PlayerHealth.finalPlayerHealth = currentPlayerHealth;
+        PlayerHealth.finalEnemyHealth = enemyHealth;
 
         IsSwapping = false; //set to false initially
         IsShifting = false;
@@ -84,7 +84,6 @@ public class BoardManagerTest : MonoBehaviour
     {
         PlayerHealth.finalPlayerHealth = currentPlayerHealth;
         PlayerHealth.finalEnemyHealth = enemyHealth;
-        
         timer += Time.deltaTime;
         if (timer >=  1f) 
         {
