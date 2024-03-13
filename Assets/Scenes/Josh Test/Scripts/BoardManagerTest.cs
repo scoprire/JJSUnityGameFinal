@@ -86,7 +86,7 @@ public class BoardManagerTest : MonoBehaviour
         {
             timer -= 1f;
             gameTimer++;
-            if (gameTimer % 10 == 0 && gameTimer != 0)
+            if (gameTimer % 30 == 0 && gameTimer != 0)
             {
                 MissionMake();
             }
@@ -428,7 +428,7 @@ public class BoardManagerTest : MonoBehaviour
 
     void MissionMake()
     {
-        if (!transform.GetChild(3).gameObject.GetComponent<Mission>().onMission)
+        if (!runningMission)
         {
             missionGoalCount = 10 + (gameTimer / 30) * 5;
             int choose = UnityEngine.Random.Range(1, 4);

@@ -20,7 +20,7 @@ public class Mission : MonoBehaviour
     int child;
     float timer;
     int missionTimer;
-    public bool onMission;
+    bool onMission;
     // Start is called before the first frame update
     void Start()
     {
