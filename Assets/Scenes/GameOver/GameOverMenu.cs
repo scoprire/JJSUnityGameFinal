@@ -14,10 +14,11 @@ public class GameOverMenu : MonoBehaviour
     public TextMeshProUGUI GameOverText = null;
     
     void Start() {
-        Debug.Log(BoardManagerTest.instance.currentPlayerHealth);
-        if (GameOverText != null) {
-            GameOverText.text = BoardManagerTest.instance.currentPlayerHealth.ToString();
-            Debug.Log("hello");
+        if (PlayerHealth.finalPlayerHealth > PlayerHealth.finalEnemyHealth) {
+            GameOverText.text = "YOU WIN!";
+        }
+        else { 
+            GameOverText.text = "HUMANOID WINS!";
         }
     }
 

@@ -46,7 +46,6 @@ public class BoardManagerTest : MonoBehaviour
 
     public int currentPlayerHealth = 100;
     int playerDamage = 100;
-
     float timer = 0;
     int gameTimer = 0;
     public TextMeshProUGUI gameTimerText;
@@ -57,6 +56,8 @@ public class BoardManagerTest : MonoBehaviour
 
     void Start()
     {
+        PlayerHealth.finalPlayerHealth = currentPlayerHealth;
+        PlayerHealth.finalEnemyHealth = enemyHealth;
 
         instance = GetComponent<BoardManagerTest>();
         BoardTransform = GetComponent<Transform>();
@@ -81,6 +82,9 @@ public class BoardManagerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerHealth.finalPlayerHealth = currentPlayerHealth;
+        PlayerHealth.finalEnemyHealth = enemyHealth;
+        
         timer += Time.deltaTime;
         if (timer >=  1f) 
         {
