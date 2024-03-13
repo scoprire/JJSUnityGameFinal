@@ -15,6 +15,7 @@ TagManager:
   - 9-Sliced
   - Hexagon Pointed-Top
   - Hexagon Flat-Top
+  - GameAudio
   layers:
   - Default
   - TransparentFX
