@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class GameOverMenu : MonoBehaviour
 {
@@ -9,18 +11,20 @@ public class GameOverMenu : MonoBehaviour
 
     public float transitionTime = 1f;
 
-    public void PlayGame()
-    {
-        //LoadNextLevel();
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    public TextMeshProUGUI GameOverText = null;
+    
+    void Start() {
+        Debug.Log(BoardManagerTest.instance.currentPlayerHealth);
+        if (GameOverText != null) {
+            GameOverText.text = BoardManagerTest.instance.currentPlayerHealth.ToString();
+            Debug.Log("hello");
+        }
     }
-
 
     public void LoadStartLevel() 
     {
         StartCoroutine(LoadLevel(0));
     }
-
 
     IEnumerator LoadLevel(int levelIndex)
     {
