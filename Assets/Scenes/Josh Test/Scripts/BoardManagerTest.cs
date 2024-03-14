@@ -39,10 +39,10 @@ public class BoardManagerTest : MonoBehaviour
 
     public TextMeshProUGUI resettingText;
 
-    int enemyMaxHealth = 1500;
+    int enemyMaxHealth = 2000;
     int enemyHealth;
     public Slider enemyHealthBar;
-    int enemyDamage = 35;
+    int enemyDamage = 25;
 
     public int currentPlayerHealth = 100;
     int playerDamage = 100;
@@ -53,6 +53,7 @@ public class BoardManagerTest : MonoBehaviour
     int missionGoalCount;
     string mission;
     public bool runningMission;
+    public TextMeshProUGUI missionArrived;
 
     void Start()
     {
@@ -75,6 +76,7 @@ public class BoardManagerTest : MonoBehaviour
         runningMission = false;
         
         resettingText.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
+        missionArrived.faceColor = new Color32(resettingText.faceColor.r, resettingText.faceColor.g, resettingText.faceColor.b, 0);
 
         CreateBoard(offset.x + border, offset.y + border);  
     }
@@ -89,7 +91,7 @@ public class BoardManagerTest : MonoBehaviour
         {
             timer -= 1f;
             gameTimer++;
-            if (gameTimer % 30 == 0 && gameTimer != 0)
+            if (gameTimer % 10 == 0 )
             {
                 MissionMake();
             }
@@ -433,7 +435,8 @@ public class BoardManagerTest : MonoBehaviour
     {
         if (!runningMission)
         {
-            missionGoalCount = 10 + (gameTimer / 30) * 5;
+            StartCoroutine(MissionDisplay());
+            missionGoalCount = 12 + (gameTimer / 10) * 1;
             int choose = UnityEngine.Random.Range(1, 4);
             switch (choose)
             {
@@ -462,6 +465,28 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
+    IEnumerator MissionDisplay()
+    {
+        Color32 start = missionArrived.faceColor;
+        Color32 end = new Color32(missionArrived.faceColor.r, missionArrived.faceColor.g, missionArrived.faceColor.b, 255);
+
+        for (float t = 0f; t < 1; t += Time.deltaTime / 1f)
+        {
+            missionArrived.faceColor = Color32.Lerp(start, end, t);
+            yield return null;
+        }
+
+        //missionArrived.faceColor = end;
+
+        for (float t = 0f; t < 1; t += Time.deltaTime / 1f)
+        {
+            missionArrived.faceColor = Color32.Lerp(end, start, t);
+            yield return null;
+        }
+
+        missionArrived.faceColor = start;
+    }
+    
     public void MissionSucceeded()
     {
         for (int i = 0; i < missionGoalCount * 2; i++)
@@ -506,6 +531,12 @@ public class BoardManagerTest : MonoBehaviour
 
             newNode.GetComponent<Node>().moveHere(end, seconds, mission);
         }
+        runningMission = false;
+        mission = "";
+    }
+
+    public void MissionFailed()
+    {
         runningMission = false;
         mission = "";
     }

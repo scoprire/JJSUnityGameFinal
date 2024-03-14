@@ -12,8 +12,8 @@ public class Crystal : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Rotate(0.05f, 0.05f, 0.05f);
+        transform.Rotate(1f, 1f, 1f);
     }
 }

@@ -113,7 +113,7 @@ public class Mission : MonoBehaviour
     {
         mission = missionName;
         goalCount = missionGoal;
-        missionTimer = 45;
+        missionTimer = 60;
         for (int i = 0; i < 10; i++)
         {
             transform.GetChild(i).gameObject.SetActive(true);
@@ -145,7 +145,8 @@ public class Mission : MonoBehaviour
         mission = "";
         missionBrief.text = "FAILED, Resources Consumed";
         missionCount.text = "FAILED";
-        BoardManagerTest.instance.runningMission = false;
+        BoardManagerTest.instance.MissionFailed();
+        missionTimer += 6;
         yield return new WaitForSeconds(5f);
         MissionDone();
     }

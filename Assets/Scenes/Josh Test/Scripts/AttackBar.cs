@@ -145,7 +145,7 @@ public class AttackBar : MonoBehaviour
         yield return new WaitForSeconds(10f); //animation time needed
 
         stunned = false;
-        stunnedTimer = 20;
+        stunnedTimer = 9;
     }
 
     private IEnumerator AttackNow()
@@ -163,7 +163,7 @@ public class AttackBar : MonoBehaviour
         BoardManagerTest.instance.PlayerTakeDmg();
 
         stunned = false;
-        stunnedTimer = 15;
+        stunnedTimer = 6;
         attacking = false;
     }
 
