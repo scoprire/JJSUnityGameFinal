@@ -91,7 +91,7 @@ public class BoardManagerTest : MonoBehaviour
         {
             timer -= 1f;
             gameTimer++;
-            if (gameTimer % 10 == 0 )
+            if (gameTimer % 30 == 0 && gameTimer != 0 )
             {
                 MissionMake();
             }
