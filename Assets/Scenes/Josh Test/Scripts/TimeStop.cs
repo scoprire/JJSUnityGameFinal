@@ -10,7 +10,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class TimeStop : MonoBehaviour
 {
-    int donutsCount;
+    int donutsCount = 0;
     new BoxCollider2D col;
     public GameObject donuts;
 
@@ -23,7 +23,7 @@ public class TimeStop : MonoBehaviour
 
     bool spawning = false;
 
-    int donutsNeeded = 100;
+    int donutsNeeded = 30;
     int stuns = 3;
     // Start is called before the first frame update
     void Start()
@@ -44,15 +44,50 @@ public class TimeStop : MonoBehaviour
         if (donutsCount >= donutsNeeded)
         {
             donutsCount -= donutsNeeded;
-            for (int i = 0; i < stuns; i++)
-            {
-                GameObject newNode = Instantiate(donuts, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), donuts.transform.rotation, transform);
-                Vector2 end = new Vector2(atkBarX, Random.Range(-2f, 1.5f));
-                float seconds = Random.Range(0.5f, 0.8f);
+            StartCoroutine(DonutExplosion());
+        }
 
-                newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
-                donutsCount--;
+    }
+
+    IEnumerator DonutExplosion()
+    {
+        GameObject newNode1 = Instantiate(donuts, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), donuts.transform.rotation, transform);
+        Vector2 end = new Vector2(11, 2);
+        float seconds = 2f;
+        newNode1.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
+        donutsCount--;
+
+        GameObject newNode2 = Instantiate(donuts, new Vector3(-transform.position.x, transform.position.y, transform.position.z - 2f), donuts.transform.rotation, transform);
+        end = new Vector2(-11, 2);
+        newNode2.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
+        donutsCount--;
+
+        yield return new WaitForSeconds(seconds + 0.5f);
+
+        for (int i = 0; i < 30; i++)
+        {
+            Vector2 enemy = new Vector2(0, 4.2f);
+            seconds = Random.Range(0.5f, 2f);
+            float yRandom = Random.Range(1f, 5f);
+            if (i % 2 == 0)
+            {
+                GameObject nodeSwarmLeft = Instantiate(donuts, new Vector3(-11, yRandom, transform.position.z - 2f), donuts.transform.rotation, transform);
+                nodeSwarmLeft.GetComponent<Node>().moveHere(enemy, seconds, this.gameObject.tag);
+
             }
+            else 
+            {
+                GameObject nodeSwarmRight = Instantiate(donuts, new Vector3(11, yRandom, transform.position.z - 2f), donuts.transform.rotation, transform);
+                nodeSwarmRight.GetComponent<Node>().moveHere(enemy, seconds, this.gameObject.tag);
+            }
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < 30; i++)
+        {
+            yield return new WaitForSeconds(1f/30f);
+            BoardManagerTest.instance.EnemyTakeDmg(1);
         }
 
     }

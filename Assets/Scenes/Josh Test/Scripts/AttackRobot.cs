@@ -41,19 +41,29 @@ public class AttackRobot : MonoBehaviour
         if (ammoCount >= ammoNeeded)
         {
             ammoCount -= ammoNeeded;
-            for (int i = 0; i < bullets; i++)
-            {
-                GameObject newNode = Instantiate(ammo, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), ammo.transform.rotation, transform);
-                Vector2 end = new Vector2(Random.Range(-7f, 7f), enemies);
-                float seconds = Random.Range(0.5f, 0.8f);
+            StartCoroutine(Shoot());
+        }
+    }
 
-                newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
-                ammoCount--;
-            }
+    IEnumerator Shoot()
+    {
+        for (int i = 0; i < bullets; i++)
+        {
+            GameObject newNode = Instantiate(ammo, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2f), ammo.transform.rotation, transform);
+            Vector2 end = new Vector2(0, 4.2f);
+            float seconds = Random.Range(0.5f, 1f);
 
-            BoardManagerTest.instance.EnemyTakeDmg();
+            newNode.GetComponent<Node>().moveHere(end, seconds, this.gameObject.tag);
+            ammoCount--;
         }
 
+        yield return new WaitForSeconds(0.2f);
+
+        for (int i = 0; i < bullets; i++)
+        {
+            yield return new WaitForSeconds(1f / bullets);
+            BoardManagerTest.instance.EnemyTakeDmg(1);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

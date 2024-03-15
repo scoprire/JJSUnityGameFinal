@@ -39,13 +39,12 @@ public class BoardManagerTest : MonoBehaviour
 
     public TextMeshProUGUI resettingText;
 
-    int enemyMaxHealth = 2000;
+    int enemyMaxHealth = 10000;
     int enemyHealth;
     public Slider enemyHealthBar;
     int enemyDamage = 25;
 
     public int currentPlayerHealth = 100;
-    int playerDamage = 100;
     float timer = 0;
     int gameTimer = 0;
     public TextMeshProUGUI gameTimerText;
@@ -421,9 +420,9 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
-    public void EnemyTakeDmg()
+    public void EnemyTakeDmg(int percent)
     {
-        enemyHealth -= playerDamage;
+        enemyHealth -= (int)(enemyHealth * percent * 0.01f);
     }
 
     public void PlayerTakeDmg()
