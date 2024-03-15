@@ -21,7 +21,7 @@ public class AttackRobot : MonoBehaviour
     bool spawning = false;
 
     int ammoNeeded = 4;
-    int bullets = 3;
+    int bullets = 4;
 
 
     // Start is called before the first frame update
@@ -62,7 +62,7 @@ public class AttackRobot : MonoBehaviour
         for (int i = 0; i < bullets; i++)
         {
             yield return new WaitForSeconds(1f / bullets);
-            BoardManagerTest.instance.EnemyTakeDmg(1);
+            BoardManagerTest.instance.EnemyTakeDmg(1.25f);
         }
     }
 

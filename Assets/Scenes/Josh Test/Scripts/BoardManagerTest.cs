@@ -420,7 +420,7 @@ public class BoardManagerTest : MonoBehaviour
         }
     }
 
-    public void EnemyTakeDmg(int percent)
+    public void EnemyTakeDmg(float percent)
     {
         enemyHealth -= (int)(enemyHealth * percent * 0.01f);
     }
