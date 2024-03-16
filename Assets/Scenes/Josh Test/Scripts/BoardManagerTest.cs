@@ -422,7 +422,7 @@ public class BoardManagerTest : MonoBehaviour
 
     public void EnemyTakeDmg(float percent)
     {
-        enemyHealth -= (int)(enemyHealth * percent * 0.01f);
+        enemyHealth -= (int)(enemyMaxHealth * percent * 0.01f);
     }
 
     public void PlayerTakeDmg()
