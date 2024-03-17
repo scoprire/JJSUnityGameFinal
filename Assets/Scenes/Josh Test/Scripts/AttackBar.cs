@@ -16,6 +16,11 @@ public class AttackBar : MonoBehaviour
     bool stunned;
     int stunnedTimer = -1;
 
+
+
+    public CharacterState currentState;
+
+
     bool attacking = false;
     // Start is called before the first frame update
     void Awake()
@@ -64,6 +69,8 @@ public class AttackBar : MonoBehaviour
             if (currentCount > countToAtk)
             {
                 currentCount = 0;
+                
+
                 //attack animation
                 attacking = true;
             }
@@ -111,6 +118,7 @@ public class AttackBar : MonoBehaviour
             if (attacking)
             {
                 StartCoroutine(AttackNow());
+                
             }
         }
     }
@@ -150,6 +158,9 @@ public class AttackBar : MonoBehaviour
 
     private IEnumerator AttackNow()
     {
+        
+        //currentState = CharacterState.Attacking;
+
         currentCount = 0;
         stunned = true;
 
@@ -165,6 +176,9 @@ public class AttackBar : MonoBehaviour
         stunned = false;
         stunnedTimer = 6;
         attacking = false;
+
+        //currentState = CharacterState.Patrolling;
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
